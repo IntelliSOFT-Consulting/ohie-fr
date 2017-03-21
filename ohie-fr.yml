@@ -1,0 +1,12 @@
+version: '2'
+services:
+    openhie-fr-app:
+        image: tomcat:7.0-jre8-alpine
+        environment:
+            - 'JAVA_OPTS=-Xmx512m -XX:MaxPermSize=256m'
+        ports:
+            - 8080:8080
+    postgresql:
+        extends:
+            file: postgresql.yml
+            service: postgresql
