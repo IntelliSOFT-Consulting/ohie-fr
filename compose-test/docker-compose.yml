@@ -1,7 +1,7 @@
 version: '2'
 services:
     openhie-fr-app:
-        image: ohie-fr
+        image: uwitech/ohie-fr
         ports:
             - 8080:8080
     dhis-db:
