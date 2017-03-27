@@ -7,9 +7,7 @@ services:
             - 'POSTGRES_DB=dhis'
         ports:
             - 8080:8080
-        links:
-            - postgresql1
-    postgresql1:
+    dhis-db:
         extends:
             file: postgresql.yml
             service: postgresql
