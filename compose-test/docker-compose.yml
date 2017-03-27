@@ -2,9 +2,6 @@ version: '2'
 services:
     openhie-fr-app:
         image: ohie-fr
-        environment:
-            - 'JAVA_OPTS=-Xmx512m -XX:MaxPermSize=256m'
-            - 'POSTGRES_DB=dhis'
         ports:
             - 8080:8080
     dhis-db:
