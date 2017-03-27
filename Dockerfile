@@ -19,8 +19,6 @@ RUN \
   rm -rf /var/lib/apt/lists/* && \
   rm -rf /var/cache/oracle-jdk8-installer
 
-#RUN apt-get install oracle-java8-set-default
-
 
 # Define commonly used JAVA_HOME variable
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
@@ -56,14 +54,11 @@ RUN set -x \
 COPY conf/hibernate.properties /opt/dhis2/config/hibernate.properties
 COPY conf/dhis.conf /opt/dhis2/config/dhis.conf
 
-RUN wget https://www.dhis2.org/download/releases/2.26/dhis.war -O $CATALINA_HOME/webapps/dhis.war
+RUN wget https://www.dhis2.org/download/releases/2.26/dhis.war -O $CATALINA_HOME/webapps/ROOT.war
 RUN chmod 0600 /opt/dhis2/config/dhis.conf
 
 # Add admin/admin user
 ADD tomcat-users.xml $CATALINA_HOME/conf/
-
-#ENV CATALINA_HOME /opt/tomcat
-#ENV PATH $PATH:$CATALINA_HOME/bin
 
 EXPOSE 8080
 EXPOSE 8009
