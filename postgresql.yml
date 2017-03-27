@@ -6,7 +6,7 @@ services:
         #     - ~/volumes/postgresql/:/var/lib/postgresql/
         environment:
             - POSTGRES_USER=dhis
-            - POSTGRES_DB=dhis
+            - POSTGRES_DB=dhis2
             - POSTGRES_PASSWORD=dhis
         ports:
             - 5432:5432
