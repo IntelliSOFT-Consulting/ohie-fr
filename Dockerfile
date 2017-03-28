@@ -50,7 +50,7 @@ RUN set -x \
     && rm tomcat.tar.gz*
 
 
-#RUN rm -rf /usr/local/tomcat/webapps/ROOT
+RUN rm -rf /usr/local/tomcat/webapps/ROOT
 COPY conf/hibernate.properties /opt/dhis2/config/hibernate.properties
 COPY conf/dhis.conf /opt/dhis2/config/dhis.conf
 

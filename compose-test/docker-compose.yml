@@ -4,6 +4,8 @@ services:
         image: uwitech/ohie-fr
         ports:
             - 8080:8080
+        depends_on:
+            - dhis-db
     dhis-db:
         extends:
             file: postgresql.yml
