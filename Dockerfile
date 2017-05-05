@@ -38,7 +38,7 @@ RUN set -ex; \
 	done
 
 ENV TOMCAT_MAJOR 8
-ENV TOMCAT_VERSION 8.5.12
+ENV TOMCAT_VERSION 8.5.14
 ENV TOMCAT_TGZ_URL https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
 
 RUN set -x \
@@ -47,12 +47,14 @@ RUN set -x \
     && gpg --verify tomcat.tar.gz.asc \
     && tar -xvf tomcat.tar.gz --strip-components=1 \
     && rm bin/*.bat \
-    && rm tomcat.tar.gz*
+    && rm tomcat.tar.gz* \
+    && mkdir -p $CATALINA_HOME/ROOT/dhis-web-core-resource
 
 
 RUN rm -rf /usr/local/tomcat/webapps/ROOT
 COPY conf/hibernate.properties /opt/dhis2/config/hibernate.properties
 COPY conf/dhis.conf /opt/dhis2/config/dhis.conf
+COPY manifest.webapp $CATALINA_HOME/ROOT/dhis-web-core-resource/manifest.webapp
 
 RUN wget https://www.dhis2.org/download/releases/2.26/dhis.war -O $CATALINA_HOME/webapps/ROOT.war
 RUN chmod 0600 /opt/dhis2/config/dhis.conf
@@ -65,8 +67,8 @@ EXPOSE 8009
 
 RUN echo "export JAVA_OPTS=$JAVA_OPTS\nexport DHIS2_HOME='/opt/dhis2/config'" >> $CATALINA_HOME/bin/setenv.sh
 
+COPY run.sh /run.sh
+RUN chmod +x /run.sh
+
 # Launch Tomcat
-CMD ["catalina.sh", "run"]
-
-
-
+CMD /run.sh
