@@ -38,7 +38,7 @@ RUN set -ex; \
 	done
 
 ENV TOMCAT_MAJOR 8
-ENV TOMCAT_VERSION 8.5.14
+ENV TOMCAT_VERSION 8.5.15
 ENV TOMCAT_TGZ_URL https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
 
 RUN set -x \
