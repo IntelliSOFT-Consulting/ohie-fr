@@ -1,6 +1,6 @@
 #!/bin/bash
 
-${SERVER_ADDRESS=localhost}
+: ${SERVER_ADDRESS=localhost}
 
 export SERVER_ADDRESS
 
