@@ -1,2 +1,2 @@
 # ohie-fr
-Facility Registry based on DHIS2
+Facility Registry and Health Worker Registry based on DHIS2
