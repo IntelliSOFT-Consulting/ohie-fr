@@ -38,8 +38,8 @@ RUN set -ex; \
 	done
 
 ENV TOMCAT_MAJOR 8
-ENV TOMCAT_VERSION 8.5.16
-ENV TOMCAT_TGZ_URL https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
+ENV TOMCAT_VERSION 8.5.15
+ENV TOMCAT_TGZ_URL http://archive.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
 
 RUN set -x \
     && curl -fSL "$TOMCAT_TGZ_URL" -o tomcat.tar.gz \
@@ -67,8 +67,8 @@ EXPOSE 8009
 
 RUN echo "export JAVA_OPTS=$JAVA_OPTS\nexport DHIS2_HOME='/opt/dhis2/config'" >> $CATALINA_HOME/bin/setenv.sh
 
-COPY run.sh /run.sh
-RUN chmod +x /run.sh
+COPY cmd.sh /cmd.sh
+RUN chmod +x /cmd.sh
 
 # Launch Tomcat
-CMD /run.sh
+CMD /cmd.sh
