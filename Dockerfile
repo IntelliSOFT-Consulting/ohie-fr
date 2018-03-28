@@ -56,7 +56,7 @@ COPY conf/hibernate.properties /opt/dhis2/config/hibernate.properties
 COPY conf/dhis.conf /opt/dhis2/config/dhis.conf
 COPY manifest.webapp $CATALINA_HOME/ROOT/dhis-web-core-resource/manifest.webapp
 
-RUN wget https://www.dhis2.org/download/releases/2.26/dhis.war -O $CATALINA_HOME/webapps/ROOT.war
+RUN wget https://s3-eu-west-1.amazonaws.com/releases.dhis2.org/2.26/dhis.war -O $CATALINA_HOME/webapps/ROOT.war
 RUN chmod 0600 /opt/dhis2/config/dhis.conf
 
 # Add admin/admin user
