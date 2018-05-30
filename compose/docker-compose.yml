@@ -1,12 +1,12 @@
 version: '2'
 services:
-    openhie-fr-app:
-        image: uwitech/ohie-fr
-        ports:
-            - 8080:8080
-        depends_on:
-            - dhis-db
-    dhis-db:
-        extends:
-            file: postgresql.yml
-            service: postgresql
+  openhie-fr-app:
+    image: uwitech/ohie-fr
+    ports:
+     - 8080:8080
+    depends_on:
+     - dhis-db
+    env_file: .env
+  dhis-db:
+    image: uwitech/postgresql
+    env_file: .env
