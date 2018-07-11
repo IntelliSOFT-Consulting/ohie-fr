@@ -67,6 +67,14 @@ RUN echo "export JAVA_OPTS=$JAVA_OPTS\nexport DHIS2_HOME='/opt/dhis2/config'" >>
 #load dependencies
 COPY dependencies/mysql-connector-java-5.1.46-bin.jar $JAVA_HOME/jre/lib/ext/
 
+#load reports
+COPY reports/ /reports/
+
+COPY postTemplate.json /postTemplate.json
+
+COPY sendReports.sh /sendReports.sh
+RUN chmod +x /sendReports.sh
+
 COPY cmd.sh /cmd.sh
 RUN chmod +x /cmd.sh
 
