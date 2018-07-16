@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ageAtFirstVisit" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df48aa2c-3795-40ea-8bb4-7e8988796c80">
+	<property name="ireport.zoom" value="1.2100000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="dataset1" uuid="c19a8940-5445-4aac-95be-401c7d870329">
+		<parameter name="periods_iso" class="java.lang.String">
+			<defaultValueExpression><![CDATA[20180101]]></defaultValueExpression>
+		</parameter>
+		<parameter name="organisationunits_uid" class="java.lang.String">
+			<defaultValueExpression><![CDATA["a7SxSzggwzc"]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT
+        	COUNT(DISTINCT CASE WHEN (TIMESTAMPDIFF(YEAR,p.birthdate,DATE(enc.encounter_datetime)))<15 THEN p.patient_id else null END) AS '0-14',
+        	COUNT(DISTINCT CASE WHEN (TIMESTAMPDIFF(YEAR,p.birthdate,DATE(enc.encounter_datetime))) between 15 AND 20 THEN p.patient_id else null END) AS '15-20',
+        	COUNT(DISTINCT CASE WHEN (TIMESTAMPDIFF(YEAR,p.birthdate,DATE(enc.encounter_datetime))) between 21 AND 30 THEN p.patient_id else null END) AS '21-30',
+        	COUNT(DISTINCT CASE WHEN (TIMESTAMPDIFF(YEAR,p.birthdate,DATE(enc.encounter_datetime))) between 31 AND 40 THEN p.patient_id else null END) AS '31-40',
+	COUNT(DISTINCT CASE WHEN (TIMESTAMPDIFF(YEAR,p.birthdate,DATE(enc.encounter_datetime))) between 41 AND 50 THEN p.patient_id else null END) AS '41-50',
+        	COUNT(DISTINCT CASE WHEN (TIMESTAMPDIFF(YEAR,p.birthdate,DATE(enc.encounter_datetime))) between 51 AND 60 THEN p.patient_id else null END) AS '51-60',
+        	COUNT(DISTINCT CASE WHEN (TIMESTAMPDIFF(YEAR,p.birthdate,DATE(enc.encounter_datetime))) between 61 AND 70 THEN p.patient_id else null END) AS '61-70',
+        	COUNT(DISTINCT CASE WHEN (TIMESTAMPDIFF(YEAR,p.birthdate,DATE(enc.encounter_datetime))) between 71 AND 80 THEN p.patient_id else null END) AS '71-80',
+        	COUNT(DISTINCT CASE WHEN (TIMESTAMPDIFF(YEAR,p.birthdate,DATE(enc.encounter_datetime))) between 81 AND 90 THEN p.patient_id else null END) AS '81-90',
+        	COUNT(DISTINCT CASE WHEN (TIMESTAMPDIFF(YEAR,p.birthdate,DATE(enc.encounter_datetime))) between 91 AND 100 THEN p.patient_id else null END) AS '91-100',
+        	COUNT(DISTINCT CASE WHEN (TIMESTAMPDIFF(YEAR,p.birthdate,DATE(enc.encounter_datetime))) between 101 AND 110 THEN p.patient_id else null END) AS '101-110',
+        	COUNT(DISTINCT CASE WHEN (TIMESTAMPDIFF(YEAR,p.birthdate,DATE(enc.encounter_datetime))) between 111 AND 120 THEN p.patient_id else null END) AS '111-120',
+        	COUNT(DISTINCT CASE WHEN (TIMESTAMPDIFF(YEAR,p.birthdate,DATE(enc.encounter_datetime))) between 121 AND 130 THEN p.patient_id else null END) AS '121-130',
+        	COUNT(DISTINCT CASE WHEN (TIMESTAMPDIFF(YEAR,p.birthdate,DATE(enc.encounter_datetime))) > 130 THEN p.patient_id else null END) AS '>130',
+	COUNT(DISTINCT p.patient_id) as 'Total'
+FROM isanteplus.patient p, openmrs.encounter enc, isanteplus.org_code_uid org,
+	(SELECT en.patient_id, MIN(DATE(en.encounter_datetime)) AS encounter_date FROM openmrs.encounter en GROUP BY 1) B
+		WHERE p.patient_id = enc.patient_id
+			AND enc.patient_id = B.patient_id
+			AND DATE(enc.encounter_datetime) = B.encounter_date
+			AND DATE_FORMAT(enc.encounter_datetime, "%Y%m") = $P{periods_iso}
+			AND p.vih_status = 1
+			AND p.organisation_uid = org.uid
+			AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
+		</queryString>
+		<field name="0-14" class="java.lang.Long"/>
+		<field name="15-20" class="java.lang.Long"/>
+		<field name="21-30" class="java.lang.Long"/>
+		<field name="31-40" class="java.lang.Long"/>
+		<field name="41-50" class="java.lang.Long"/>
+		<field name="51-60" class="java.lang.Long"/>
+		<field name="61-70" class="java.lang.Long"/>
+		<field name="71-80" class="java.lang.Long"/>
+		<field name="81-90" class="java.lang.Long"/>
+		<field name="91-100" class="java.lang.Long"/>
+		<field name="101-110" class="java.lang.Long"/>
+		<field name="111-120" class="java.lang.Long"/>
+		<field name="121-130" class="java.lang.Long"/>
+		<field name="&gt;130" class="java.lang.Long"/>
+		<field name="Total" class="java.lang.Long">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<parameter name="periods_iso" class="java.lang.String">
+		<defaultValueExpression><![CDATA[201801]]></defaultValueExpression>
+	</parameter>
+	<parameter name="period_name" class="java.lang.String"/>
+	<parameter name="organisationunits" class="java.lang.String"/>
+	<parameter name="organisationunits_uid" class="java.lang.String"/>
+	<parameter name="organisationunit_name" class="java.lang.String"/>
+	<parameter name="isanteplus_database_con" class="java.sql.Connection" isForPrompting="false">
+		<defaultValueExpression><![CDATA[java.sql.DriverManager.getConnection("jdbc:mysql://${MYSQL_HOST}:3306/","root","${MYSQL_ROOT_PASSWORD}")]]></defaultValueExpression>
+	</parameter>
+	<queryString language="plsql">
+		<![CDATA[SELECT 1;]]>
+	</queryString>
+	<field name="?column?" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="14" width="752" height="19" uuid="ac60f476-8e83-423f-b4a9-626128dc5563"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Âge à la première visite]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="85" y="0" width="127" height="20" uuid="162fa68b-67a0-4a4b-b788-5a49d4d9b2f5"/>
+				<textFieldExpression><![CDATA[$P{period_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="375" y="0" width="150" height="20" uuid="c994a93e-2de6-497f-b1d9-1de738908343"/>
+				<textFieldExpression><![CDATA[$P{organisationunit_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="32" y="0" width="38" height="20" uuid="96884c12-7577-4396-87c3-930641fa5757"/>
+				<text><![CDATA[Période:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="0" width="124" height="20" uuid="d48f0717-4794-4939-85cc-a1d5ceb46b66"/>
+				<text><![CDATA[Unité organisationnelle:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="10" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="109" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 1" style="table 1" x="0" y="0" width="572" height="109" uuid="ded77160-06b4-489a-8a06-af43606059b2"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="dataset1" uuid="0a949c5e-2c44-459a-9e8e-f7342a657241">
+						<datasetParameter name="REPORT_CONNECTION">
+							<datasetParameterExpression><![CDATA[$P{isanteplus_database_con}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="periods_iso">
+							<datasetParameterExpression><![CDATA[$P{periods_iso}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="organisationunits_uid">
+							<datasetParameterExpression><![CDATA[$P{organisationunits_uid}]]></datasetParameterExpression>
+						</datasetParameter>
+					</datasetRun>
+					<jr:column width="50" uuid="038e7386-b2ac-4b81-b502-e5104a43565d">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="06aa7b0c-0982-485a-8284-04a9216ba299"/>
+								<text><![CDATA[0-14]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20" uuid="9e68cf06-6d78-4169-a522-af5b68ba0c4f"/>
+								<textFieldExpression><![CDATA[$F{0-14}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="2d2ee002-83fe-40bc-be79-53f0d86f92bc">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="e779824d-58bf-4636-ad02-e44c17800308"/>
+								<text><![CDATA[15-20]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20" uuid="60927607-13dd-4e78-840f-a9d1a24174fb"/>
+								<textFieldExpression><![CDATA[$F{15-20}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="e4cde8bc-0707-4d32-abd0-a5035fd8cbd8">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="097f6709-6712-45c9-9938-ef50d6a935d8"/>
+								<text><![CDATA[21-30]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20" uuid="0235b353-a5e6-499d-b4b6-9eb0007f3f49"/>
+								<textFieldExpression><![CDATA[$F{21-30}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="5969e998-c5d5-4021-9dc8-07cb0a552718">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="df0d4d19-b353-4c00-910c-a7b47a960faf"/>
+								<text><![CDATA[31-40]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20" uuid="a0398c78-44ad-41dd-96cb-e60e5c2edbd7"/>
+								<textFieldExpression><![CDATA[$F{31-40}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="9dc0ec32-f0f0-411f-b3ed-065847476950">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="cfe3526a-4f11-411d-b5bc-4ff533620a03"/>
+								<text><![CDATA[41-50]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20" uuid="710939a7-8842-493f-991a-871cbf69e353"/>
+								<textFieldExpression><![CDATA[$F{41-50}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="be656b8f-0586-40cc-b2b4-9704c33a8524">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="7ed35452-d06c-421c-8136-afe645c4ac83"/>
+								<text><![CDATA[51-60]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20" uuid="5b11f636-5f51-4d9b-9565-9160b84ddaa6"/>
+								<textFieldExpression><![CDATA[$F{51-60}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="ea7923e6-2db4-4a82-b104-ef833b15d4db">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="d1f21fe9-3ed1-4025-aad9-c79f45b2bd2f"/>
+								<text><![CDATA[61-70]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20" uuid="93c0f8d4-babc-4beb-8e8e-d4d170393bbc"/>
+								<textFieldExpression><![CDATA[$F{61-70}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="64c4498b-59cf-4aac-917e-cb864c86935b">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="85309d11-a765-4688-8177-4aff25b89f7a"/>
+								<text><![CDATA[71-80]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20" uuid="8261c533-aa77-4c29-bb6b-446f1c8aea62"/>
+								<textFieldExpression><![CDATA[$F{71-80}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="ab93e4a8-1f3b-4dd3-ba96-7e842a8cc41f">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="1e7b9df8-510f-44fd-83e4-a5b8a136bfa2"/>
+								<text><![CDATA[81-90]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20" uuid="986f102a-6b4b-4faa-b2d9-fb6f017bca31"/>
+								<textFieldExpression><![CDATA[$F{81-90}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="ac15e2e0-c9b4-4b2a-b6a9-328434116d7c">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="f55f4827-7e05-4b17-a799-d2ca66b52fb3"/>
+								<text><![CDATA[91-100]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20" uuid="b944f4ea-d252-414f-a41b-99d71083130e"/>
+								<textFieldExpression><![CDATA[$F{91-100}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="60b89b10-24cc-43c1-a08a-dbceb6730b45">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="5a60716b-f657-4801-bc13-736c2fe2010b"/>
+								<text><![CDATA[101-110]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20" uuid="e7d4d8b7-c6ac-4b3d-b100-3753fd0b4c7d"/>
+								<textFieldExpression><![CDATA[$F{101-110}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="b00d1a76-dc21-4221-9d3d-69a543ac60e1">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="6cc10aa6-c477-4760-81ff-06607d086ac5"/>
+								<text><![CDATA[111-120]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20" uuid="6cf093ae-7efc-4015-8c56-7983255c2b88"/>
+								<textFieldExpression><![CDATA[$F{111-120}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="999a271f-cd29-4b6a-a43b-060064d0678a">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="ab0d917c-686f-42c8-a381-045b1b3655a2"/>
+								<text><![CDATA[121-130]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20" uuid="d9d671ea-2628-4cd3-af73-cf9c5e53f23d"/>
+								<textFieldExpression><![CDATA[$F{121-130}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="195ed17d-efe9-47f7-91df-d891962e3135">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="e8a33ecc-894a-434d-86e1-762574e39567"/>
+								<text><![CDATA[>130]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20" uuid="f2182447-c388-4079-9bd4-d6bfe8435367"/>
+								<textFieldExpression><![CDATA[$F{>130}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="319e10f1-cd2a-46a4-81a7-96fe72558d13">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="ac6e100a-6185-4a25-829d-c2cf93effef9"/>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20" uuid="9f51d5ae-7199-4dc1-8e5f-c8f1fdfa0246"/>
+								<textFieldExpression><![CDATA[$F{Total}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="42" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="38" splitType="Stretch"/>
+	</summary>
+</jasperReport>
