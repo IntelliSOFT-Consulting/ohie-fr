@@ -71,6 +71,7 @@ COPY dependencies/mysql-connector-java-5.1.46-bin.jar $JAVA_HOME/jre/lib/ext/
 COPY reports/ /reports/
 
 COPY postTemplate.json /postTemplate.json
+COPY postTemplateNoPeriods.json /postTemplateNoPeriods.json
 
 COPY sendReports.sh /sendReports.sh
 RUN chmod +x /sendReports.sh
