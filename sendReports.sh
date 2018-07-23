@@ -25,7 +25,7 @@ for file in /reports/*; do
   filename=$(basename "$file")
   fname="${filename%.*}"
   if [[ -f $file ]]; then
-  processFile $file $fname $POST_TEMPLATE
+  processFile $file $fname "$POST_TEMPLATE"
   fi
 done
 
@@ -33,6 +33,6 @@ for file in /reports/noPeriods/*; do
   filename=$(basename "$file")
   fname="${filename%.*}"
   if [[ -f $file ]]; then
-  processFile $file $fname $POST_TEMPLATE_NO_PERIODS
+  processFile $file $fname "$POST_TEMPLATE_NO_PERIODS"
   fi
 done
