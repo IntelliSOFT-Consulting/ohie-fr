@@ -85,16 +85,16 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 				<textFieldExpression><![CDATA[$P{period_name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="350" y="0" width="150" height="20" uuid="c994a93e-2de6-497f-b1d9-1de738908343"/>
+				<reportElement x="367" y="0" width="150" height="20" uuid="c994a93e-2de6-497f-b1d9-1de738908343"/>
 				<textFieldExpression><![CDATA[$P{organisationunit_name}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="32" y="0" width="38" height="20" uuid="96884c12-7577-4396-87c3-930641fa5757"/>
-				<text><![CDATA[Period:]]></text>
+				<text><![CDATA[Période:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="240" y="0" width="100" height="20" uuid="d48f0717-4794-4939-85cc-a1d5ceb46b66"/>
-				<text><![CDATA[Organisation unit:]]></text>
+				<reportElement x="240" y="0" width="127" height="20" uuid="d48f0717-4794-4939-85cc-a1d5ceb46b66"/>
+				<text><![CDATA[Unité organisationnelle:]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
