@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="numberExposedInfantsTestedByPCR" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df48aa2c-3795-40ea-8bb4-7e8988796c80">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="dataset1" uuid="c19a8940-5445-4aac-95be-401c7d870329">
+		<parameter name="periods_iso" class="java.lang.String">
+			<defaultValueExpression><![CDATA["201803"]]></defaultValueExpression>
+		</parameter>
+		<parameter name="organisationunits_uid" class="java.lang.String">
+			<defaultValueExpression><![CDATA["a7SxSzggwzc"]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT DISTINCT pat.st_id as 'NO. de patient attribué par le site', pat.national_id as 'Numéro d\'identité national',
+pat.given_name as Prénom,pat.family_name as Nom, pat.gender as Sexe,
+TIMESTAMPDIFF(YEAR, pat.birthdate,DATE(now())) as Âge
+FROM isanteplus.patient pat
+LEFT OUTER JOIN  isanteplus.patient_laboratory plab
+ON pat.patient_id=plab.patient_id
+LEFT OUTER JOIN isanteplus.virological_tests vt
+ON pat.patient_id = vt.patient_id,
+isanteplus.org_code_uid org
+WHERE(
+		(vt.concept_group=1361 AND vt.test_id=162087
+		AND vt.answer_concept_id=1030
+		AND DATE_FORMAT(vt.encounter_date, "%Y%m") = $P{periods_iso})
+		OR(plab.test_id=844 AND (plab.date_test_done is not null OR plab.date_test_done <> '')
+		AND DATE_FORMAT(plab.date_test_done, "%Y%m") = $P{periods_iso})
+)
+AND pat.organisation_uid = org.uid
+AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
+		</queryString>
+		<field name="NO. de patient attribué par le site" class="java.lang.String"/>
+		<field name="Numéro d&apos;identité national" class="java.lang.String"/>
+		<field name="Prénom" class="java.lang.String"/>
+		<field name="Nom" class="java.lang.String"/>
+		<field name="Sexe" class="java.lang.String"/>
+		<field name="Âge" class="java.lang.Long"/>
+	</subDataset>
+	<parameter name="periods_iso" class="java.lang.String">
+		<defaultValueExpression><![CDATA[201801]]></defaultValueExpression>
+	</parameter>
+	<parameter name="period_name" class="java.lang.String"/>
+	<parameter name="organisationunits" class="java.lang.String"/>
+	<parameter name="organisationunits_uid" class="java.lang.String"/>
+	<parameter name="organisationunit_name" class="java.lang.String"/>
+	<parameter name="isanteplus_database_con" class="java.sql.Connection" isForPrompting="false">
+		<defaultValueExpression><![CDATA[java.sql.DriverManager.getConnection("jdbc:mysql://${MYSQL_HOST}:3306/","root","${MYSQL_ROOT_PASSWORD}")]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 1;]]>
+	</queryString>
+	<field name="?column?" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="14" width="558" height="19" uuid="ac60f476-8e83-423f-b4a9-626128dc5563"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre d'enfants exposés testés par PCR]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="85" y="0" width="127" height="20" uuid="162fa68b-67a0-4a4b-b788-5a49d4d9b2f5"/>
+				<textFieldExpression><![CDATA[$P{period_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="367" y="0" width="150" height="20" uuid="c994a93e-2de6-497f-b1d9-1de738908343"/>
+				<textFieldExpression><![CDATA[$P{organisationunit_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="32" y="0" width="38" height="20" uuid="96884c12-7577-4396-87c3-930641fa5757"/>
+				<text><![CDATA[Période:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="0" width="127" height="20" uuid="d48f0717-4794-4939-85cc-a1d5ceb46b66"/>
+				<text><![CDATA[Unité organisationnelle:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="10" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="109" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 1" style="table 1" x="32" y="0" width="262" height="99" uuid="d6b50c96-62b7-40f5-8c73-94952874f5bb"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="dataset1" uuid="461f759f-4e50-426b-84ea-1cdd7ced9ec3">
+						<datasetParameter name="REPORT_CONNECTION">
+							<datasetParameterExpression><![CDATA[$P{isanteplus_database_con}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="periods_iso">
+							<datasetParameterExpression><![CDATA[$P{periods_iso}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="organisationunits_uid">
+							<datasetParameterExpression><![CDATA[$P{organisationunits_uid}]]></datasetParameterExpression>
+						</datasetParameter>
+					</datasetRun>
+					<jr:column width="90" uuid="385f4e6e-4360-401a-a6cf-f41fb4babace">
+						<jr:columnHeader style="table 1_CH" height="44" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="44" uuid="f9d854f5-06de-4abd-b36e-365ae133cede"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[NO. de patient attribué par le site]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="30" uuid="4c38954c-7a15-464c-af25-92351250d185"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NO. de patient attribué par le site}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="29c6e194-10f6-40e8-8550-6b7d9f1e53a2">
+						<jr:columnHeader style="table 1_CH" height="44" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="44" uuid="cd49f370-c36d-4054-8f5f-a5b5748eb9ac"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[Numéro d'identité national]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="30" uuid="548e6a27-1fc7-4baa-af01-bdfa87455b27"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Numéro d'identité national}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="110" uuid="d2bac5ad-0965-41f0-90a4-e79e5e56f8d6">
+						<jr:columnHeader style="table 1_CH" height="44" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="110" height="44" uuid="51308ed6-e094-47fa-9aeb-952b15953fbe"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[Prénom]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="110" height="30" uuid="9847ef55-25d9-4f5a-9e5f-9d803c4f7f1f"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Prénom}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="110" uuid="55902210-ea21-4155-bb05-091506649424">
+						<jr:columnHeader style="table 1_CH" height="44" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="110" height="44" uuid="17e41644-6a18-4cc0-9c79-45269e2ab671"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[Nom]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="110" height="30" uuid="0e165726-3851-4643-9f55-ec21bfad06f6"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Nom}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="de1700c4-a6c9-4b38-b990-29e774ccccc1">
+						<jr:columnHeader style="table 1_CH" height="44" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="44" uuid="e0415207-759c-4111-a24e-f6920f3344c6"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[Sexe]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="30" uuid="77c6c21e-5550-420d-95ca-6580defccfb1"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Sexe}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="811b6649-8680-455a-8829-d52e77192a54">
+						<jr:columnHeader style="table 1_CH" height="44" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="44" uuid="95255544-faa9-4505-983d-d99f38456a0e"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[Âge]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="30" uuid="053b638c-19ac-4a7e-b194-a7da09f79583"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Âge}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="80" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="38" splitType="Stretch"/>
+	</summary>
+</jasperReport>
