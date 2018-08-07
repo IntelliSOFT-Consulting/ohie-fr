@@ -67,20 +67,22 @@
 		<parameter name="periods_iso" class="java.lang.String"/>
 		<parameter name="organisationunits_uid" class="java.lang.String"/>
 		<queryString>
-			<![CDATA[SELECT
-	COUNT(DISTINCT CASE WHEN DATEDIFF(pdis.next_dispensation_date,pdis.visit_date) BETWEEN 0 AND 30 THEN p.patient_id END) AS '0-30 jours',
-	COUNT(DISTINCT CASE WHEN DATEDIFF(pdis.next_dispensation_date,pdis.visit_date) BETWEEN 31 AND 60 THEN p.patient_id END) AS '31-60 jours',
-	COUNT(DISTINCT CASE WHEN DATEDIFF(pdis.next_dispensation_date,pdis.visit_date) BETWEEN 61 AND 90 THEN p.patient_id END) AS '61-90 jours',
-	COUNT(DISTINCT CASE WHEN DATEDIFF(pdis.next_dispensation_date,pdis.visit_date) BETWEEN 91 AND 120 THEN p.patient_id END) AS '91-120 jours',
-	COUNT(DISTINCT CASE WHEN DATEDIFF(pdis.next_dispensation_date,pdis.visit_date) > 120 THEN p.patient_id END) AS '>120 jours',
-	COUNT(DISTINCT p.patient_id) AS 'Patient unique'
-FROM isanteplus.patient p, isanteplus.patient_dispensing pdis, isanteplus.patient_on_arv parv, isanteplus.org_code_uid org
-WHERE p.patient_id=pdis.patient_id
-	AND pdis.visit_id=parv.visit_id
-	AND (pdis.next_dispensation_date<>'' AND pdis.next_dispensation_date IS NOT NULL)
-	AND DATE_FORMAT(pdis.visit_date, "%Y%m") = $P{periods_iso}
-    AND p.organisation_uid = org.uid
-	AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
+			<![CDATA[SELECT COUNT(DISTINCT CASE WHEN DATEDIFF(pdis.next_dispensation_date,pdis.visit_date) BETWEEN 0 AND 30 THEN pdis.patient_id END) AS '0-30 jours',
+	COUNT(DISTINCT CASE WHEN DATEDIFF(pdis.next_dispensation_date,pdis.visit_date) BETWEEN 31 AND 60 THEN pdis.patient_id END) AS '31-60 jours',
+	COUNT(DISTINCT CASE WHEN DATEDIFF(pdis.next_dispensation_date,pdis.visit_date) BETWEEN 61 AND 90 THEN pdis.patient_id END) AS '61-90 jours',
+	COUNT(DISTINCT CASE WHEN DATEDIFF(pdis.next_dispensation_date,pdis.visit_date) BETWEEN 91 AND 120 THEN pdis.patient_id END) AS '91-120 jours',
+	COUNT(DISTINCT CASE WHEN DATEDIFF(pdis.next_dispensation_date,pdis.visit_date) > 120 THEN pdis.patient_id END) AS '>120 jours',
+	COUNT(DISTINCT pdis.patient_id) AS 'Patient unique'
+	FROM isanteplus.patient_dispensing pdis
+		LEFT JOIN (SELECT p.patient_id, org.path
+					FROM isanteplus.patient p, isanteplus.org_code_uid org
+					WHERE p.organisation_uid = org.uid
+						AND FIND_IN_SET($P{organisationunits_uid}, org.path)) as tab ON (pdis.patient_id = tab.patient_id),
+		isanteplus.patient_on_arv parv
+	WHERE pdis.visit_id=parv.visit_id
+    AND (pdis.next_dispensation_date<>''
+    AND pdis.next_dispensation_date is not null)
+		AND DATE_FORMAT(pdis.visit_date, "%Y%m") = $P{periods_iso}]]>
 		</queryString>
 		<field name="0-30 jours" class="java.lang.Long"/>
 		<field name="31-60 jours" class="java.lang.Long"/>

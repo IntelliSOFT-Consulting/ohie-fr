@@ -189,28 +189,28 @@ GROUP BY cn.name;]]>
 							<datasetParameterExpression><![CDATA[$P{organisationunits_uid}]]></datasetParameterExpression>
 						</datasetParameter>
 					</datasetRun>
-					<jr:column width="90" uuid="8502e164-4a3d-4155-8736-d2ec0549b2b9">
-						<jr:columnHeader style="table 5_CH" height="30">
+					<jr:column width="400" uuid="8502e164-4a3d-4155-8736-d2ec0549b2b9">
+						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30" uuid="8a56f94a-fc01-4fb7-aa91-3764b359b756"/>
+								<reportElement x="0" y="0" width="400" height="30" uuid="8a56f94a-fc01-4fb7-aa91-3764b359b756"/>
 								<text><![CDATA[Nom du médicament]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 5_TD" height="20">
+						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="c613379e-40ea-4413-b218-12ea7decdfcc"/>
+								<reportElement x="0" y="0" width="400" height="20" uuid="c613379e-40ea-4413-b218-12ea7decdfcc"/>
 								<textFieldExpression><![CDATA[$F{Nom du médicament}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="90" uuid="25cb5e49-bd74-4f5c-8cbd-b7bb2cfcc1de">
-						<jr:columnHeader style="table 5_CH" height="30">
+						<jr:columnHeader style="table 5_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="62b97cd1-c811-4a01-bbb6-f113416b92a2"/>
 								<text><![CDATA[Quantité]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 5_TD" height="20">
+						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="c81fbb67-4908-4a1d-9209-f5d15c54ee77"/>
 								<textFieldExpression><![CDATA[$F{Quantité}]]></textFieldExpression>

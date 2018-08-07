@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="disposedDrugs" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df48aa2c-3795-40ea-8bb4-7e8988796c80">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="dispensingMedications" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df48aa2c-3795-40ea-8bb4-7e8988796c80">
 	<property name="ireport.zoom" value="1.2100000000000006"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -209,28 +209,28 @@ GROUP BY cn.name;]]>
 							<datasetParameterExpression><![CDATA[$P{organisationunits_uid}]]></datasetParameterExpression>
 						</datasetParameter>
 					</datasetRun>
-					<jr:column width="90" uuid="467e806a-ed9a-4c04-8053-1120c636c546">
-						<jr:columnHeader style="table 6_CH" height="30">
+					<jr:column width="400" uuid="467e806a-ed9a-4c04-8053-1120c636c546">
+						<jr:columnHeader style="table 6_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30" uuid="a435220e-8fd6-4123-97f1-6471e9f13218"/>
+								<reportElement x="0" y="0" width="400" height="30" uuid="a435220e-8fd6-4123-97f1-6471e9f13218"/>
 								<text><![CDATA[MedicationName]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 6_TD" height="20">
+						<jr:detailCell style="table 6_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="f4f34dff-2b4e-4926-a932-0b0bf8c49cf1"/>
+								<reportElement x="0" y="0" width="400" height="20" uuid="f4f34dff-2b4e-4926-a932-0b0bf8c49cf1"/>
 								<textFieldExpression><![CDATA[$F{MedicationName}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="90" uuid="42b9db9d-61e8-4a24-a7a9-f4a5e1179cb2">
-						<jr:columnHeader style="table 6_CH" height="30">
+						<jr:columnHeader style="table 6_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="5ff65a4c-19c9-4016-9a9b-517433d1ac06"/>
 								<text><![CDATA[Count]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 6_TD" height="20">
+						<jr:detailCell style="table 6_TD" height="20" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="d4bfd0a2-4627-41f1-ac8a-0feb78e9ce70"/>
 								<textFieldExpression><![CDATA[$F{Count}]]></textFieldExpression>
@@ -248,6 +248,6 @@ GROUP BY cn.name;]]>
 		<band height="42" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band height="38" splitType="Stretch"/>
+		<band height="39" splitType="Stretch"/>
 	</summary>
 </jasperReport>
