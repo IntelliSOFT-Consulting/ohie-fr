@@ -64,25 +64,27 @@
 		</box>
 	</style>
 	<subDataset name="dataset1" uuid="c19a8940-5445-4aac-95be-401c7d870329">
-		<parameter name="periods_iso" class="java.lang.String"/>
-		<parameter name="organisationunits_uid" class="java.lang.String"/>
+		<parameter name="periods_iso" class="java.lang.String">
+			<defaultValueExpression><![CDATA[201801]]></defaultValueExpression>
+		</parameter>
+		<parameter name="organisationunits_uid" class="java.lang.String">
+			<defaultValueExpression><![CDATA["a7SxSzggwzc"]]></defaultValueExpression>
+		</parameter>
 		<queryString>
-			<![CDATA[SELECT COUNT(DISTINCT CASE WHEN DATEDIFF(pdis.next_dispensation_date,pdis.visit_date) BETWEEN 0 AND 30 THEN pdis.patient_id END) AS '0-30 jours',
-	COUNT(DISTINCT CASE WHEN DATEDIFF(pdis.next_dispensation_date,pdis.visit_date) BETWEEN 31 AND 60 THEN pdis.patient_id END) AS '31-60 jours',
-	COUNT(DISTINCT CASE WHEN DATEDIFF(pdis.next_dispensation_date,pdis.visit_date) BETWEEN 61 AND 90 THEN pdis.patient_id END) AS '61-90 jours',
-	COUNT(DISTINCT CASE WHEN DATEDIFF(pdis.next_dispensation_date,pdis.visit_date) BETWEEN 91 AND 120 THEN pdis.patient_id END) AS '91-120 jours',
-	COUNT(DISTINCT CASE WHEN DATEDIFF(pdis.next_dispensation_date,pdis.visit_date) > 120 THEN pdis.patient_id END) AS '>120 jours',
-	COUNT(DISTINCT pdis.patient_id) AS 'Patient unique'
-	FROM isanteplus.patient_dispensing pdis
-		LEFT JOIN (SELECT p.patient_id, org.path
-					FROM isanteplus.patient p, isanteplus.org_code_uid org
-					WHERE p.organisation_uid = org.uid
-						AND FIND_IN_SET($P{organisationunits_uid}, org.path)) as tab ON (pdis.patient_id = tab.patient_id),
-		isanteplus.patient_on_arv parv
-	WHERE pdis.visit_id=parv.visit_id
-    AND (pdis.next_dispensation_date<>''
-    AND pdis.next_dispensation_date is not null)
-		AND DATE_FORMAT(pdis.visit_date, "%Y%m") = $P{periods_iso}]]>
+			<![CDATA[select count(distinct case when DATEDIFF(pdis.next_dispensation_date,pdis.visit_date) between 0 AND 30 THEN p.patient_id END) as '0-30 jours',
+count(distinct case when DATEDIFF(pdis.next_dispensation_date,pdis.visit_date) between 31 AND 60 THEN p.patient_id END) as '31-60 jours',
+count(distinct case when DATEDIFF(pdis.next_dispensation_date,pdis.visit_date) between 61 AND 90 THEN p.patient_id END) as '61-90 jours',
+count(distinct case when DATEDIFF(pdis.next_dispensation_date,pdis.visit_date) between 91 AND 120 THEN p.patient_id END) as '91-120 jours',
+count(distinct case when DATEDIFF(pdis.next_dispensation_date,pdis.visit_date) > 120 THEN p.patient_id END) as '>120 jours',
+count(distinct p.patient_id) as 'Patient unique'
+FROM isanteplus.patient p, isanteplus.patient_dispensing pdis, isanteplus.patient_on_arv parv, isanteplus.org_code_uid org
+WHERE p.patient_id=pdis.patient_id
+AND pdis.visit_id=parv.visit_id
+AND (pdis.next_dispensation_date<>'' AND pdis.next_dispensation_date is not null)
+AND pdis.visit_date between DATE_FORMAT(STR_TO_DATE($P{periods_iso}, "%Y%m"), "%Y-%m-01")
+  AND DATE_ADD(DATE_FORMAT(STR_TO_DATE($P{periods_iso}, "%Y%m"), "%Y-%m-01"), INTERVAL 1 MONTH)
+AND p.organisation_uid = org.uid
+AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 		</queryString>
 		<field name="0-30 jours" class="java.lang.Long"/>
 		<field name="31-60 jours" class="java.lang.Long"/>
@@ -159,12 +161,18 @@
 						<jr:columnHeader style="table 2_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="89ed4acf-4853-4df2-9020-726c862187e2"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<text><![CDATA[0-30 jours]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="9b8461c4-d5b3-4773-8e22-edfe20e3bc59"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{0-30 jours}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -173,12 +181,18 @@
 						<jr:columnHeader style="table 2_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="acdf210b-5037-4b7d-a824-5080f9142bc4"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<text><![CDATA[31-60 jours]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="58574010-c9f5-4cf4-8163-8029dc5b5246"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{31-60 jours}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -187,12 +201,18 @@
 						<jr:columnHeader style="table 2_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="da611451-786f-4281-9b12-a27e6de11193"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<text><![CDATA[61-90 jours]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="c7361dd0-d103-41c0-9343-43ad5027da6b"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{61-90 jours}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -201,12 +221,18 @@
 						<jr:columnHeader style="table 2_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="347ad85b-432d-4a48-8ee7-f9af72b3ca51"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<text><![CDATA[91-120 jours]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="37276056-8809-4281-a334-43ae9004cb1d"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{91-120 jours}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -215,12 +241,18 @@
 						<jr:columnHeader style="table 2_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="c34dab92-c79b-4ea1-8b03-9f472c6deaac"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<text><![CDATA[>120 jours]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="3d4fff83-7b0e-4631-bdd2-f6eeaa7ef15b"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{>120 jours}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -229,12 +261,18 @@
 						<jr:columnHeader style="table 2_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="d28f43ad-9485-4db1-8f92-5880f623ed6a"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<text><![CDATA[Patient unique]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 2_TD" height="20">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="fd921aaa-4603-4abb-a809-906244e8f329"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{Patient unique}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
