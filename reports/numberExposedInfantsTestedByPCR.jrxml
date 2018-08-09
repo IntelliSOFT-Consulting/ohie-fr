@@ -51,7 +51,7 @@
 			<defaultValueExpression><![CDATA["a7SxSzggwzc"]]></defaultValueExpression>
 		</parameter>
 		<queryString>
-			<![CDATA[SELECT DISTINCT pat.st_id as 'NO. de patient attribué par le site', pat.national_id as 'Numéro d\'identité national',
+			<![CDATA[SELECT DISTINCT pat.st_id as 'NO. de patient attribué par le site', pat.national_id as 'Numéro d\\'identité national',
 pat.given_name as Prénom,pat.family_name as Nom, pat.gender as Sexe,
 TIMESTAMPDIFF(YEAR, pat.birthdate,DATE(now())) as Âge
 FROM isanteplus.patient pat
