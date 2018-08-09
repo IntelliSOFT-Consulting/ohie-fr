@@ -67,22 +67,24 @@
 		<parameter name="periods_iso" class="java.lang.String"/>
 		<parameter name="organisationunits_uid" class="java.lang.String"/>
 		<queryString>
-			<![CDATA[SELECT COUNT(DISTINCT ppr.patient_id) AS Total
-	FROM isanteplus.patient p
-		INNER JOIN isanteplus.patient_delivery pdel ON pdel.patient_id=p.patient_id
-		LEFT OUTER JOIN isanteplus.patient_laboratory plab ON p.patient_id=plab.patient_id
-		LEFT OUTER JOIN isanteplus.patient_pregnancy ppr ON p.patient_id=ppr.patient_id
-        LEFT OUTER JOIN isanteplus.org_code_uid org ON p.organisation_uid = org.uid
-	WHERE ((p.vih_status=1) OR ((plab.test_id=1042 OR plab.test_id=1040)
-		AND plab.test_result=703 AND DATE_FORMAT(plab.date_test_done, "%Y%m") = $P{periods_iso}))
-		AND DATE_FORMAT(ppr.start_date, "%Y%m") = $P{periods_iso}
-		AND (pdel.delivery_location=163266 OR pdel.delivery_location=1502)
-		AND DATE_FORMAT(pdel.delivery_date, "%Y%m") = $P{periods_iso}
-		AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
+			<![CDATA[SELECT COUNT(DISTINCT ppr.patient_id) as Total
+FROM isanteplus.patient_pregnancy ppr
+INNER JOIN isanteplus.patient_delivery pdel
+ON pdel.patient_id=ppr.patient_id
+LEFT OUTER JOIN  isanteplus.patient_laboratory plab
+ON ppr.patient_id=plab.patient_id
+LEFT OUTER JOIN isanteplus.patient p
+ON p.patient_id=ppr.patient_id,
+isanteplus.org_code_uid org
+WHERE ((p.vih_status=1) OR ((plab.test_id=1042 OR plab.test_id=1040)
+AND plab.test_result=703 AND DATE_FORMAT(plab.date_test_done, "%Y%m") = $P{periods_iso}))
+AND DATE_FORMAT(ppr.start_date, "%Y%m") = $P{periods_iso}
+AND (pdel.delivery_location=163266 OR pdel.delivery_location=1502)
+AND DATE_FORMAT(pdel.delivery_date, "%Y%m") = $P{periods_iso}
+AND p.organisation_uid = org.uid
+AND FIND_IN_SET($P{organisationunits_uid}, org.path)]]>
 		</queryString>
-		<field name="Total" class="java.lang.Long">
-			<fieldDescription><![CDATA[]]></fieldDescription>
-		</field>
+		<field name="Total" class="java.lang.Long"/>
 	</subDataset>
 	<parameter name="periods_iso" class="java.lang.String"/>
 	<parameter name="period_name" class="java.lang.String"/>
@@ -149,86 +151,22 @@
 						</datasetParameter>
 					</datasetRun>
 					<jr:column width="90" uuid="b8ccad95-15e0-45e1-911f-3d7e1478f0ba">
-						<jr:columnHeader style="table 2_CH" height="30">
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="89ed4acf-4853-4df2-9020-726c862187e2"/>
-								<text><![CDATA[0-30 jours]]></text>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
+								<text><![CDATA[Total]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="20">
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="9b8461c4-d5b3-4773-8e22-edfe20e3bc59"/>
-								<textFieldExpression><![CDATA[$F{0-30 jours}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="90" uuid="3d2f5aba-80d6-4f1a-bd36-310c4b8e1cec">
-						<jr:columnHeader style="table 2_CH" height="30">
-							<staticText>
-								<reportElement x="0" y="0" width="90" height="30" uuid="acdf210b-5037-4b7d-a824-5080f9142bc4"/>
-								<text><![CDATA[31-60 jours]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="20">
-							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="58574010-c9f5-4cf4-8163-8029dc5b5246"/>
-								<textFieldExpression><![CDATA[$F{31-60 jours}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="90" uuid="9d37c82b-fa6c-41ac-8994-40d4509d54cf">
-						<jr:columnHeader style="table 2_CH" height="30">
-							<staticText>
-								<reportElement x="0" y="0" width="90" height="30" uuid="da611451-786f-4281-9b12-a27e6de11193"/>
-								<text><![CDATA[61-90 jours]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="20">
-							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="c7361dd0-d103-41c0-9343-43ad5027da6b"/>
-								<textFieldExpression><![CDATA[$F{61-90 jours}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="90" uuid="e652288b-bd77-45b8-ab7d-0d070c727e0b">
-						<jr:columnHeader style="table 2_CH" height="30">
-							<staticText>
-								<reportElement x="0" y="0" width="90" height="30" uuid="347ad85b-432d-4a48-8ee7-f9af72b3ca51"/>
-								<text><![CDATA[91-120 jours]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="20">
-							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="37276056-8809-4281-a334-43ae9004cb1d"/>
-								<textFieldExpression><![CDATA[$F{91-120 jours}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="90" uuid="35aa0033-22f8-4286-9f2a-e45b8992f786">
-						<jr:columnHeader style="table 2_CH" height="30">
-							<staticText>
-								<reportElement x="0" y="0" width="90" height="30" uuid="c34dab92-c79b-4ea1-8b03-9f472c6deaac"/>
-								<text><![CDATA[>120 jours]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="20">
-							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="3d4fff83-7b0e-4631-bdd2-f6eeaa7ef15b"/>
-								<textFieldExpression><![CDATA[$F{>120 jours}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="90" uuid="1202521c-f63a-4623-a4f2-d157325c3eb3">
-						<jr:columnHeader style="table 2_CH" height="30">
-							<staticText>
-								<reportElement x="0" y="0" width="90" height="30" uuid="d28f43ad-9485-4db1-8f92-5880f623ed6a"/>
-								<text><![CDATA[Patient unique]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="20">
-							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="fd921aaa-4603-4abb-a809-906244e8f329"/>
-								<textFieldExpression><![CDATA[$F{Patient unique}]]></textFieldExpression>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Total}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
