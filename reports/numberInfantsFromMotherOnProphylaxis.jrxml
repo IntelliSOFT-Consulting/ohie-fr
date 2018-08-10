@@ -31,7 +31,7 @@
 			<defaultValueExpression><![CDATA["a7SxSzggwzc"]]></defaultValueExpression>
 		</parameter>
 		<queryString>
-			<![CDATA[select DISTINCT p.st_id as 'NO. de patient attribué par le site', p.national_id as 'Numéro d\'identité national',
+			<![CDATA[select DISTINCT p.st_id as 'NO. de patient attribué par le site', p.national_id as 'Numéro d identité national',
  p.given_name as Prénom,p.family_name as Nom, p.gender as Sexe,
  TIMESTAMPDIFF(YEAR, p.birthdate,DATE(now())) as Age
  FROM isanteplus.org_code_uid org, isanteplus.patient p, isanteplus.pediatric_hiv_visit pv
@@ -42,7 +42,7 @@
  AND FIND_IN_SET($P{organisationunits_uid}, org.path)]]>
 		</queryString>
 		<field name="NO. de patient attribué par le site" class="java.lang.String"/>
-		<field name="Numéro d&apos;identité national" class="java.lang.String"/>
+		<field name="Numéro d identité national" class="java.lang.String"/>
 		<field name="Prénom" class="java.lang.String"/>
 		<field name="Nom" class="java.lang.String"/>
 		<field name="Sexe" class="java.lang.String"/>
@@ -61,7 +61,7 @@
 	<queryString language="plsql">
 		<![CDATA[SELECT 1;]]>
 	</queryString>
-	<field name="?column?" class="java.lang.String"/>
+	<field name="?column?" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -119,12 +119,18 @@
 						<jr:columnHeader style="table_CH" height="41" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="2" width="90" height="39" uuid="4fa1a98b-d096-40db-9f8d-09a63bf96bd4"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<text><![CDATA[NO. de patient attribué par le site]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table_TD" height="30" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="7c79b065-aba6-47e8-92eb-6e5c5c4ace2f"/>
+								<reportElement x="0" y="0" width="90" height="30" uuid="7c79b065-aba6-47e8-92eb-6e5c5c4ace2f"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{NO. de patient attribué par le site}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -133,13 +139,19 @@
 						<jr:columnHeader style="table_CH" height="41" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="41" uuid="feadc330-cec3-4b1c-bbb4-6ce4a96058fa"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<text><![CDATA[Numéro d'identité national]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table_TD" height="30" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="30" uuid="338970b3-b52e-4575-ae79-290e6828fa03"/>
-								<textFieldExpression><![CDATA[$F{Numéro d'identité national}]]></textFieldExpression>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Numéro d identité national}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -147,12 +159,18 @@
 						<jr:columnHeader style="table_CH" height="41" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="41" uuid="56944372-ec96-425e-a759-e3e28e67042d"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<text><![CDATA[Prénom]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table_TD" height="30" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="30" uuid="93b50cc5-28ac-4263-ba3d-c96b529a0284"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{Prénom}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -161,12 +179,18 @@
 						<jr:columnHeader style="table_CH" height="41" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="41" uuid="eafccb60-71db-4e3e-a152-94ccaa64ed6a"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<text><![CDATA[Nom]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table_TD" height="30" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="30" uuid="8e7251fb-0fb3-47f9-af17-15213e38a319"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{Nom}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -175,12 +199,18 @@
 						<jr:columnHeader style="table_CH" height="41" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="41" uuid="8a197d70-44e4-4c26-8b94-736a2cd0a27b"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<text><![CDATA[Sexe]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table_TD" height="30" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="30" uuid="5fe12c2c-16db-4e87-b100-c1735a331767"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{Sexe}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -189,12 +219,18 @@
 						<jr:columnHeader style="table_CH" height="41" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="41" uuid="76c57aea-2303-4ff3-8f75-a201d603c44b"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<text><![CDATA[Age]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table_TD" height="30" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="30" uuid="948e0b53-2f81-4ed7-9301-ae7387f4342c"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{Age}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
