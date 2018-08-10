@@ -68,19 +68,16 @@
 			<defaultValueExpression><![CDATA["a7SxSzggwzc"]]></defaultValueExpression>
 		</parameter>
 		<queryString>
-			<![CDATA[SELECT DISTINCT loc.name AS Site,
-	MONTH(tab.encounter_datetime) AS Month,
-	YEAR(tab.encounter_datetime) AS Year,
-	COUNT(DISTINCT tab.patient_id) AS Count
-		FROM openmrs.location loc, isanteplus.org_code_uid org,
-			(SELECT en.encounter_datetime, en.patient_id, en.location_id, organisation_uid
-				FROM isanteplus.patient p, openmrs.encounter en
-					WHERE p.patient_id = en.patient_id) AS tab
-			WHERE tab.location_id=loc.location_id
-                			AND tab.organisation_uid = org.uid
-				AND FIND_IN_SET($P{organisationunits_uid}, org.path)
-			GROUP BY loc.name, MONTH(tab.encounter_datetime), YEAR(tab.encounter_datetime)
-			ORDER BY 3 DESC;]]>
+			<![CDATA[select distinct loc.name as Site,MONTH(en.encounter_datetime) as Month,
+YEAR(en.encounter_datetime) as Year,count(distinct en.patient_id) as Count
+FROM openmrs.encounter en
+INNER JOIN isanteplus.patient p
+ON p.patient_id=en.patient_id, openmrs.location loc, isanteplus.org_code_uid org
+WHERE en.location_id=loc.location_id
+AND p.organisation_uid = org.uid
+AND FIND_IN_SET($P{organisationunits_uid}, org.path)
+GROUP BY loc.name, MONTH(en.encounter_datetime), YEAR(en.encounter_datetime)
+ORDER BY 3 DESC;]]>
 		</queryString>
 		<field name="Site" class="java.lang.String"/>
 		<field name="Month" class="java.lang.Integer"/>
@@ -140,57 +137,81 @@
 						</datasetParameter>
 					</datasetRun>
 					<jr:column width="90" uuid="d508f9c5-505b-4fb4-92ae-ab59493cf0aa">
-						<jr:columnHeader style="table 2_CH" height="30">
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="dc06d6c9-fbbd-4812-8687-85ee02dea4b8"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<text><![CDATA[Site]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="20">
+						<jr:detailCell style="table 2_TD" height="45" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="2c11db24-f418-4fe9-bd12-0d74bff8c2f8"/>
+								<reportElement x="0" y="0" width="90" height="45" uuid="2c11db24-f418-4fe9-bd12-0d74bff8c2f8"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{Site}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="90" uuid="7d5b4c24-ba8d-410b-af4f-4e145c9570f7">
-						<jr:columnHeader style="table 2_CH" height="30">
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="a9ceb9ba-550a-4682-9664-5422c113222b"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<text><![CDATA[Month]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="20">
+						<jr:detailCell style="table 2_TD" height="45" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="cc895e74-2c2c-4329-a194-d81d13c218ab"/>
+								<reportElement x="0" y="0" width="90" height="45" uuid="cc895e74-2c2c-4329-a194-d81d13c218ab"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{Month}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="90" uuid="7e4ded45-2fef-4eb1-a884-5fe489764c46">
-						<jr:columnHeader style="table 2_CH" height="30">
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="adbdb0a9-d718-4014-89bc-dd0a0a6d4b0c"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<text><![CDATA[Year]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="20">
+						<jr:detailCell style="table 2_TD" height="45" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="ea034490-9edc-4ea5-8e33-5e3822462fca"/>
+								<reportElement x="0" y="0" width="90" height="45" uuid="ea034490-9edc-4ea5-8e33-5e3822462fca"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{Year}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="90" uuid="4e83f224-4906-4143-a32d-7d7179810533">
-						<jr:columnHeader style="table 2_CH" height="30">
+						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="21f3b6f6-301f-49fd-b2e7-280b2d0e1cf0"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<text><![CDATA[Count]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="20">
+						<jr:detailCell style="table 2_TD" height="45" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="06b5c2ad-ed80-471e-bca7-0f70d5cd26c7"/>
+								<reportElement x="0" y="0" width="90" height="45" uuid="06b5c2ad-ed80-471e-bca7-0f70d5cd26c7"/>
+								<textElement>
+									<paragraph leftIndent="4" spacingBefore="4"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{Count}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
