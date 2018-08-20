@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="numberPregnantWomenDiagnosedSyphilis" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df48aa2c-3795-40ea-8bb4-7e8988796c80">
+	<property name="ireport.zoom" value="1.2100000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="dataset1" uuid="c19a8940-5445-4aac-95be-401c7d870329">
+		<parameter name="periods_iso" class="java.lang.String"/>
+		<parameter name="organisationunits_uid" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[SELECT COUNT(DISTINCT ppr.patient_id) AS Total
+FROM isanteplus.patient_pregnancy ppr
+	LEFT OUTER JOIN  isanteplus.patient_laboratory plab
+		ON ppr.patient_id = plab.patient_id
+    LEFT OUTER JOIN isanteplus.patient_diagnosis pdiag
+		ON ppr.patient_id = pdiag.patient_id
+	INNER JOIN isanteplus.patient p
+		ON p.patient_id=ppr.patient_id
+	LEFT OUTER JOIN isanteplus.org_code_uid org
+		ON p.organisation_uid = org.uid
+WHERE ((plab.test_id = 163626
+			AND plab.test_done = 1
+			AND plab.test_result = 703
+			AND DATE_FORMAT(plab.visit_date, "%Y%m") = $P{periods_iso})
+		OR (pdiag.concept_id = 1284
+			AND pdiag.answer_concept_id = 112493
+			AND DATE_FORMAT(pdiag.encounter_date, "%Y%m") = $P{periods_iso})
+	)
+	AND DATE_FORMAT(ppr.start_date, "%Y%m") = $P{periods_iso}
+    AND p.organisation_uid = org.uid
+	AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
+		</queryString>
+		<field name="Total" class="java.lang.Long">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<parameter name="periods_iso" class="java.lang.String"/>
+	<parameter name="period_name" class="java.lang.String"/>
+	<parameter name="organisationunits_uid" class="java.lang.String"/>
+	<parameter name="organisationunit_name" class="java.lang.String"/>
+	<parameter name="isanteplus_database_con" class="java.sql.Connection" isForPrompting="false">
+		<defaultValueExpression><![CDATA[java.sql.DriverManager.getConnection("jdbc:mysql://${MYSQL_HOST}:3306/","root","${MYSQL_ROOT_PASSWORD}")]]></defaultValueExpression>
+	</parameter>
+	<queryString language="plsql">
+		<![CDATA[SELECT 1;]]>
+	</queryString>
+	<field name="?column?" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="14" width="572" height="19" uuid="ac60f476-8e83-423f-b4a9-626128dc5563"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre de femmes enceintes diagnostiquées syphilis (+)]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="94" y="0" width="127" height="20" uuid="162fa68b-67a0-4a4b-b788-5a49d4d9b2f5"/>
+				<textFieldExpression><![CDATA[$P{period_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="384" y="0" width="150" height="20" uuid="c994a93e-2de6-497f-b1d9-1de738908343"/>
+				<textFieldExpression><![CDATA[$P{organisationunit_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="41" y="0" width="38" height="20" uuid="96884c12-7577-4396-87c3-930641fa5757"/>
+				<text><![CDATA[Période:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="249" y="0" width="124" height="20" uuid="d48f0717-4794-4939-85cc-a1d5ceb46b66"/>
+				<text><![CDATA[Unité organisationnelle:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="10" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="109" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 4" style="table 4" x="0" y="0" width="572" height="50" uuid="56bbd8f6-ae10-45c7-a225-26a6735c1074"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="dataset1" uuid="a134e5d4-bace-4e78-a2e5-08a99bc18fb7">
+						<datasetParameter name="REPORT_CONNECTION">
+							<datasetParameterExpression><![CDATA[$P{isanteplus_database_con}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="periods_iso">
+							<datasetParameterExpression><![CDATA[$P{periods_iso}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="organisationunits_uid">
+							<datasetParameterExpression><![CDATA[$P{organisationunits_uid}]]></datasetParameterExpression>
+						</datasetParameter>
+					</datasetRun>
+					<jr:column width="90" uuid="1eb91ceb-8939-44df-a147-0c56ad6b0fb8">
+						<jr:columnHeader style="table 4_CH" height="30">
+							<box topPadding="4" leftPadding="4"/>
+							<staticText>
+								<reportElement x="0" y="0" width="86" height="26" uuid="89c23dc5-23c0-42c5-ac6f-13696cd43dbc"/>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20">
+							<box topPadding="4" leftPadding="4"/>
+							<textField>
+								<reportElement x="0" y="0" width="86" height="16" uuid="9ad91456-bfea-408d-9322-30da0b7e01d5"/>
+								<textFieldExpression><![CDATA[$F{Total}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="42" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="38" splitType="Stretch"/>
+	</summary>
+</jasperReport>
