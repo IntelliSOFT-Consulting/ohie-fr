@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="possibleDuplicateRegistrations" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df48aa2c-3795-40ea-8bb4-7e8988796c80">
+	<property name="ireport.zoom" value="1.2100000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="dataset1" uuid="c19a8940-5445-4aac-95be-401c7d870329">
+		<parameter name="organisationunits_uid" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[SELECT DISTINCT pat.st_id AS 'Code ST',
+	pat.national_id AS 'Code national',
+	p.family_name AS Nom,
+	p.given_name AS Prénom,
+	pat.gender AS Sexe,
+	TIMESTAMPDIFF(YEAR, p.birthdate,DATE(now())) AS Âge,
+	pat.last_address AS Adresse,
+	p.mother_name AS 'Nom de la mère',
+	pat.telephone AS Téléphone
+FROM (SELECT pa.given_name, pa.family_name,
+		pa.birthdate, pa.mother_name,
+		count(DISTINCT pa.patient_id) AS dupCount
+		FROM isanteplus.patient pa
+		GROUP BY pa.given_name, pa.family_name, pa.birthdate, pa.mother_name
+		HAVING COUNT(DISTINCT pa.patient_id) > 1) p,
+	isanteplus.patient pat, isanteplus.org_code_uid org
+WHERE pat.organisation_uid = org.uid
+	AND FIND_IN_SET($P{organisationunits_uid}, org.path)
+	AND p.given_name = pat.given_name
+	AND p.family_name = pat.family_name
+	AND p.birthdate = pat.birthdate
+	AND (p.mother_name = pat.mother_name
+	OR (p.mother_name IS NULL AND pat.mother_name IS NULL))
+ORDER BY 3, 4, 6;]]>
+		</queryString>
+		<field name="Code ST" class="java.lang.String"/>
+		<field name="Code national" class="java.lang.String"/>
+		<field name="Nom" class="java.lang.String"/>
+		<field name="Prénom" class="java.lang.String"/>
+		<field name="Sexe" class="java.lang.String"/>
+		<field name="Âge" class="java.lang.Long"/>
+		<field name="Adresse" class="java.lang.String"/>
+		<field name="Nom de la mère" class="java.lang.String"/>
+		<field name="Téléphone" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="organisationunits_uid" class="java.lang.String"/>
+	<parameter name="organisationunit_name" class="java.lang.String"/>
+	<parameter name="isanteplus_database_con" class="java.sql.Connection" isForPrompting="false">
+		<defaultValueExpression><![CDATA[java.sql.DriverManager.getConnection("jdbc:mysql://${MYSQL_HOST}:3306/","root","${MYSQL_ROOT_PASSWORD}")]]></defaultValueExpression>
+	</parameter>
+	<queryString language="plsql">
+		<![CDATA[SELECT 1;]]>
+	</queryString>
+	<field name="?column?" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement x="90" y="14" width="572" height="19" uuid="ac60f476-8e83-423f-b4a9-626128dc5563"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Éventualité de duplication d'enregistrement de patients]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="167" y="0" width="150" height="20" uuid="c994a93e-2de6-497f-b1d9-1de738908343"/>
+				<textFieldExpression><![CDATA[$P{organisationunit_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="32" y="0" width="124" height="20" uuid="d48f0717-4794-4939-85cc-a1d5ceb46b66"/>
+				<text><![CDATA[Unité organisationnelle:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="10" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="109" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 4" style="table 4" x="0" y="0" width="572" height="109" uuid="a3d65d01-4842-41eb-a227-a24f71cdb99d"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="dataset1" uuid="7535df12-0ebd-4464-abeb-1a2af2214b6a">
+						<datasetParameter name="REPORT_CONNECTION">
+							<datasetParameterExpression><![CDATA[$P{isanteplus_database_con}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="organisationunits_uid">
+							<datasetParameterExpression><![CDATA[$P{organisationunits_uid}]]></datasetParameterExpression>
+						</datasetParameter>
+					</datasetRun>
+					<jr:column width="90" uuid="33b29859-e757-4384-9ae6-2681e2c648b5">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<box topPadding="4" leftPadding="4"/>
+							<staticText>
+								<reportElement x="0" y="0" width="86" height="26" uuid="c71af88a-8608-42df-9eed-9a88977fb78e"/>
+								<text><![CDATA[Code ST]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<box topPadding="4" leftPadding="4"/>
+							<textField>
+								<reportElement x="0" y="0" width="86" height="16" uuid="2e3cf6ae-4c21-4dd7-9a4c-2dfea57ad157"/>
+								<textFieldExpression><![CDATA[$F{Code ST}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="cb1d390b-12c2-435d-a188-b959daaf5915">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<box topPadding="4" leftPadding="4"/>
+							<staticText>
+								<reportElement x="0" y="0" width="86" height="26" uuid="cc280bb7-66d9-4250-950c-bd314f20402a"/>
+								<text><![CDATA[Code national]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<box topPadding="4" leftPadding="4"/>
+							<textField>
+								<reportElement x="0" y="0" width="86" height="16" uuid="f2b4391c-33a9-4161-96ae-30b5d7a6edd3"/>
+								<textFieldExpression><![CDATA[$F{Code national}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="d24e5196-ae62-4c4c-999b-f4edd221224f">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<box topPadding="4" leftPadding="4"/>
+							<staticText>
+								<reportElement x="0" y="0" width="86" height="26" uuid="da38d8f6-f5b9-46e7-8a48-5d113afdba97"/>
+								<text><![CDATA[Nom]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<box topPadding="4" leftPadding="4"/>
+							<textField>
+								<reportElement x="0" y="0" width="86" height="16" uuid="bf0b1a47-68e2-433d-b2e0-eb75248622ec"/>
+								<textFieldExpression><![CDATA[$F{Nom}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="60af6065-4928-4440-bf3e-c0f5d63daf4c">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<box topPadding="4" leftPadding="4"/>
+							<staticText>
+								<reportElement x="0" y="0" width="86" height="26" uuid="9ba2695d-cb44-4ae1-8d21-3a3ba344200d"/>
+								<text><![CDATA[Prénom]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<box topPadding="4" leftPadding="4"/>
+							<textField>
+								<reportElement x="0" y="0" width="86" height="16" uuid="6bbec132-2fca-4ce6-88d6-b24ea1f96c94"/>
+								<textFieldExpression><![CDATA[$F{Prénom}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="40" uuid="5ac0cf97-a90b-4205-8e84-c40310688238">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<box topPadding="4" leftPadding="4"/>
+							<staticText>
+								<reportElement x="0" y="0" width="36" height="26" uuid="4300764e-b147-47bc-90ea-202604672735"/>
+								<text><![CDATA[Sexe]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<box topPadding="4" leftPadding="4"/>
+							<textField>
+								<reportElement x="0" y="0" width="36" height="16" uuid="cfebefa4-d047-476c-a681-b5f9ae2fd3ed"/>
+								<textFieldExpression><![CDATA[$F{Sexe}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="40" uuid="15cced28-ae12-4dde-951e-d5d00168cb4c">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<box topPadding="4" leftPadding="4"/>
+							<staticText>
+								<reportElement x="0" y="0" width="36" height="26" uuid="a79c76ee-34d8-4667-93a1-9a961ee3e1a5"/>
+								<text><![CDATA[Âge]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<box topPadding="4" leftPadding="4"/>
+							<textField>
+								<reportElement x="0" y="0" width="36" height="16" uuid="02e0e5d5-87de-402c-a924-bdf787f93e85"/>
+								<textFieldExpression><![CDATA[$F{Âge}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="5257b33c-7fe9-4f6f-98c0-4e3283013cde">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<box topPadding="4" leftPadding="4"/>
+							<staticText>
+								<reportElement x="0" y="0" width="86" height="26" uuid="dab36ade-3371-493e-b697-b91f39e6a086"/>
+								<text><![CDATA[Adresse]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<box topPadding="4" leftPadding="4"/>
+							<textField>
+								<reportElement x="0" y="0" width="86" height="16" uuid="93707b18-f0af-44d9-a29b-7eabceaabe7f"/>
+								<textFieldExpression><![CDATA[$F{Adresse}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="71a18dd5-3410-4c1d-916e-d5eea0989860">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<box topPadding="4" leftPadding="4"/>
+							<staticText>
+								<reportElement x="0" y="0" width="86" height="26" uuid="df59af1d-7682-4d93-9bcf-a250f65c1882"/>
+								<text><![CDATA[Nom de la mère]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<box topPadding="4" leftPadding="4"/>
+							<textField>
+								<reportElement x="0" y="0" width="86" height="16" uuid="c731b4a2-7c96-44e6-b2ed-b23404378d0e"/>
+								<textFieldExpression><![CDATA[$F{Nom de la mère}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="4d192df3-eaed-4cf8-a3bf-e9992bff5073">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<box topPadding="4" leftPadding="4"/>
+							<staticText>
+								<reportElement x="0" y="0" width="86" height="26" uuid="3d727816-582e-445c-88f6-899cf3390a67"/>
+								<text><![CDATA[Téléphone]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<box topPadding="4" leftPadding="4"/>
+							<textField>
+								<reportElement x="0" y="0" width="86" height="16" uuid="5ebb078e-fbe2-43a4-acbf-c5e2191320a0"/>
+								<textFieldExpression><![CDATA[$F{Téléphone}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="42" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="38" splitType="Stretch"/>
+	</summary>
+</jasperReport>
