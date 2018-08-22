@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="patientAgeGroup" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df48aa2c-3795-40ea-8bb4-7e8988796c80">
 	<property name="ireport.zoom" value="1.2100000000000006"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="289"/>
+	<property name="ireport.y" value="739"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -302,7 +302,7 @@ WHERE
 		<field name="femaleDenominator" class="java.lang.Long"/>
 		<field name="maleDenominator" class="java.lang.Long"/>
 	</subDataset>
-	<subDataset name="adult_6" uuid="c44e7348-d898-4da3-b757-590b976a65b7">
+	<subDataset name="adult_5" uuid="c44e7348-d898-4da3-b757-590b976a65b7">
 		<parameter name="periods_iso" class="java.lang.String">
 			<defaultValueExpression><![CDATA[201801]]></defaultValueExpression>
 		</parameter>
@@ -358,6 +358,63 @@ WHERE
 		<field name="femaleDenominator" class="java.lang.Long"/>
 		<field name="maleDenominator" class="java.lang.Long"/>
 	</subDataset>
+	<subDataset name="adult_6" uuid="1f318dec-70a7-4818-9533-1743c628046a">
+		<parameter name="periods_iso" class="java.lang.String">
+			<defaultValueExpression><![CDATA[201802]]></defaultValueExpression>
+		</parameter>
+		<parameter name="organisationunits_uid" class="java.lang.String">
+			<defaultValueExpression><![CDATA["a7SxSzggwzc"]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT
+    COUNT(DISTINCT CASE WHEN (
+            p.gender = 'F'
+            AND pv.adherence_evaluation IN (90, 100)
+        ) THEN p.patient_id ELSE null END
+    ) AS 'femaleNumerator',
+    COUNT(DISTINCT CASE WHEN (
+            p.gender = 'M'
+            AND pv.adherence_evaluation IN (90, 100)
+        ) THEN p.patient_id ELSE null END
+    ) AS 'maleNumerator',
+    COUNT(DISTINCT CASE WHEN (
+            p.gender = 'F'
+            AND pv.adherence_evaluation IS NOT NULL
+        ) THEN p.patient_id ELSE null END
+    ) AS 'femaleDenominator',
+    COUNT(DISTINCT CASE WHEN (
+            p.gender = 'M'
+            AND pv.adherence_evaluation IS NOT NULL
+        ) THEN p.patient_id ELSE null END
+        ) AS 'maleDenominator'
+FROM isanteplus.patient p
+INNER JOIN isanteplus.health_qual_patient_visit pv
+ON p.patient_id = pv.patient_id,
+isanteplus.org_code_uid org
+WHERE p.vih_status = '1'
+    AND p.patient_id IN (	-- on ART for 3 months or more
+        SELECT pd.patient_id
+        FROM isanteplus.patient_dispensing pd
+        WHERE
+        pd.drug_id IN (SELECT arvd.drug_id FROM isanteplus.arv_drugs arvd)
+        AND pd.dispensation_date <= DATE_SUB(STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d'), INTERVAL 3 MONTH)
+    )
+    AND pv.visit_date BETWEEN SUBDATE(STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d'), INTERVAL 3 MONTH) AND STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d')
+    AND p.patient_id NOT IN (
+        SELECT discon.patient_id
+        FROM isanteplus.discontinuation_reason discon
+        WHERE discon.reason IN ('159', '1667', '159492')
+    )
+    AND pv.age_in_years > 14 -- An adult
+    AND p.organisation_uid = org.uid
+	AND FIND_IN_SET($P{organisationunits_uid}, org.path);
+]]>
+		</queryString>
+		<field name="femaleNumerator" class="java.lang.Long"/>
+		<field name="maleNumerator" class="java.lang.Long"/>
+		<field name="femaleDenominator" class="java.lang.Long"/>
+		<field name="maleDenominator" class="java.lang.Long"/>
+	</subDataset>
 	<parameter name="periods_iso" class="java.lang.String"/>
 	<parameter name="period_name" class="java.lang.String"/>
 	<parameter name="organisationunits" class="java.lang.String"/>
@@ -405,7 +462,14 @@ WHERE
 		<band height="10" splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="718" splitType="Stretch">
+		<band height="675" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="10" width="402" height="20" uuid="1fe3fc47-86f2-40ea-978c-b137453eb9ec"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Retention of patients on antiretroviral treatment (ART)]]></text>
+			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="30" width="572" height="79" uuid="fc01bc58-c0d9-4bce-a7e5-d2fe350ef6ce"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
@@ -614,13 +678,6 @@ WHERE
 					</jr:column>
 				</jr:table>
 			</componentElement>
-			<staticText>
-				<reportElement x="0" y="10" width="402" height="20" uuid="1fe3fc47-86f2-40ea-978c-b137453eb9ec"/>
-				<textElement>
-					<font size="10" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Retention of patients on antiretroviral treatment (ART)]]></text>
-			</staticText>
 			<staticText>
 				<reportElement x="0" y="121" width="402" height="20" uuid="3cf6e368-98b7-4aae-aaf5-54a81bc6aa9a"/>
 				<textElement>
@@ -1267,16 +1324,16 @@ WHERE
 				</jr:table>
 			</componentElement>
 			<staticText>
-				<reportElement x="0" y="506" width="572" height="32" uuid="a80472d9-6931-4804-8727-7b75fa01b1fc"/>
+				<reportElement x="0" y="503" width="572" height="32" uuid="a80472d9-6931-4804-8727-7b75fa01b1fc"/>
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
 				<text><![CDATA[ Proportion of HIV+ patients on ARVs who have had an adherence evaluation during the last 6 months]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement key="table 3" style="table 3" x="0" y="538" width="572" height="90" uuid="54096314-7b49-4a39-a1e4-fef218a3f7fb"/>
+				<reportElement key="table 3" style="table 3" x="0" y="535" width="572" height="90" uuid="54096314-7b49-4a39-a1e4-fef218a3f7fb"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="adult_6" uuid="23798f9b-2790-439e-a563-d69658bf9c86">
+					<datasetRun subDataset="adult_5" uuid="a01bac54-adb8-45e9-b872-2d961fdf0e98">
 						<datasetParameter name="REPORT_CONNECTION">
 							<datasetParameterExpression><![CDATA[$P{isanteplus_database_con}]]></datasetParameterExpression>
 						</datasetParameter>
@@ -1481,12 +1538,223 @@ WHERE
 					</jr:column>
 				</jr:table>
 			</componentElement>
-			<break>
-				<reportElement x="0" y="234" width="100" height="1" uuid="2a13c7d8-4184-45d7-b6dd-296a36b8ca47"/>
-			</break>
-			<break>
-				<reportElement x="0" y="538" width="100" height="1" uuid="79c2b4f8-f49f-4ec1-9be1-3961bbc09e36"/>
-			</break>
+		</band>
+		<band height="718">
+			<staticText>
+				<reportElement x="0" y="0" width="572" height="32" uuid="095205db-1cb6-4404-a05d-fa9bb41d6d9f"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Proportion of HIV+ patients on ART who are adherent to treatment during the selected period]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table 3" style="table 3" x="0" y="32" width="572" height="90" uuid="294b8d52-b2d2-4d2f-9195-b21e09332578"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="adult_6" uuid="266d841f-f050-4297-ae48-6cce4751f1e8">
+						<datasetParameter name="REPORT_CONNECTION">
+							<datasetParameterExpression><![CDATA[$P{isanteplus_database_con}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="periods_iso">
+							<datasetParameterExpression><![CDATA[$P{periods_iso}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="organisationunits_uid">
+							<datasetParameterExpression><![CDATA[$P{organisationunits_uid}]]></datasetParameterExpression>
+						</datasetParameter>
+					</datasetRun>
+					<jr:column width="50" uuid="5e5469f9-fb18-4005-ad15-54314e032fa2">
+						<jr:columnHeader style="table 3_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="41" uuid="19f6a30a-e915-47a1-a282-2e29773e979e"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[Num. H]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="8e19f74b-f338-42e0-ada0-46906e9688f2"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{maleNumerator}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="508a6b34-7fd3-46ec-a259-4df0b1b1027c">
+						<jr:columnHeader style="table 3_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="41" uuid="f4b7d6b7-80c9-499f-8177-f3facd34be0b"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[Num. F]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="064c76d3-1be1-4998-bc98-1e259c7e9437"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{femaleNumerator}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="d1e8dde7-adc8-4f83-a58f-bdfd9a57fbbf">
+						<jr:columnHeader style="table 3_CH" height="50" rowSpan="1">
+							<box rightPadding="0">
+								<rightPen lineWidth="2.0"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="41" uuid="604dd54d-cbb9-47df-a6f6-20caa1d5be3d"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[Tot]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+							<box>
+								<rightPen lineWidth="2.0"/>
+							</box>
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="c6976827-c97b-40d4-9ad9-850cc7187ba5"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{maleNumerator} + $F{femaleNumerator}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="e1b7e589-8c18-44ac-8e5e-58faa098d093">
+						<jr:columnHeader style="table 3_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="41" uuid="2d732c34-0451-47fb-a192-315e77235ec5"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[Den. H]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="5dda6f8b-a08e-4adf-9b00-b1d11080b110"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{maleDenominator}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="fa7c438d-feca-43fc-bf0f-182c4e256c60">
+						<jr:columnHeader style="table 3_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="41" uuid="2abe0a97-35bb-4ced-badd-963babfc33bd"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[Num. F]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="7f07a115-97bd-4673-80ef-b5fc5246dfec"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{femaleDenominator}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="60a05e51-3e35-4c59-9002-96ab1133395f">
+						<jr:columnHeader style="table 3_CH" height="50" rowSpan="1">
+							<box>
+								<rightPen lineWidth="2.0"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="41" uuid="a6d13957-1968-48c5-ab73-21342f0d95a6"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[Tot]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+							<box>
+								<rightPen lineWidth="2.0"/>
+							</box>
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="6a84e900-0456-4a15-86bb-859082d2bc52"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{maleDenominator} + $F{femaleDenominator}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="7d0da057-fde6-44ac-8d70-65176084ad8b">
+						<jr:columnHeader style="table 3_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="41" uuid="d7489175-b5b4-49bd-9874-9548c4c3680c"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[% H]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="3587e395-0e72-4be3-9bc3-8f27d1e97c80"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{maleNumerator} * 100 / $F{maleDenominator}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="eeb5dec1-0df5-49df-9504-a881b1870e0b">
+						<jr:columnHeader style="table 3_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="41" uuid="f2cde1d1-5095-4563-ab30-3f665efef411"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[% F]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="703727e6-c026-4213-83d3-2a10ec3e8d77"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{femaleNumerator} * 100 / $F{femaleDenominator}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="6c8cc395-f4a5-48cd-9ffe-c839884805ca">
+						<jr:columnHeader style="table 3_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="41" uuid="a81ca8c0-0e62-4a06-aa72-f856559163ac"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[Tot]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="4448200a-bce8-4a89-8fd8-a3861f75182d"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[($F{maleNumerator} + $F{femaleNumerator}) * 100 / ($F{maleDenominator} + $F{femaleDenominator})]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
 		</band>
 	</detail>
 </jasperReport>
