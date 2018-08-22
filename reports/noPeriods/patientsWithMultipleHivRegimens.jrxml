@@ -126,31 +126,31 @@
 	<subDataset name="dataset1" uuid="c19a8940-5445-4aac-95be-401c7d870329">
 		<parameter name="organisationunits_uid" class="java.lang.String"/>
 		<queryString>
-			<![CDATA[SELECT DISTINCT f.name AS Fiche, 
-	pa.st_id AS 'Code ST', 
-	pa.national_id AS 'Code national', 
-	pa.given_name AS Prénom, 
-	pa.family_name AS Nom, 
-	pa.gender AS Sexe, 
-	TIMESTAMPDIFF(YEAR, pa.birthdate, DATE(now())) AS Âge, 
-	pa.mother_name AS 'Nom de la mère', 
-	pa.telephone AS Téléphone, 
+			<![CDATA[SELECT DISTINCT f.name AS Fiche,
+	pa.st_id AS 'Code ST',
+	pa.national_id AS 'Code national',
+	pa.given_name AS Prénom,
+	pa.family_name AS Nom,
+	pa.gender AS Sexe,
+	TIMESTAMPDIFF(YEAR, pa.birthdate, DATE(now())) AS Âge,
+	pa.mother_name AS 'Nom de la mère',
+	pa.telephone AS Téléphone,
 	pa.visit_date AS 'Date visite'
 FROM openmrs.encounter en, openmrs.form f, isanteplus.org_code_uid org,
-	(SELECT pdisp.patient_id, pdisp.encounter_id, pat.st_id, 
-		pat.national_id, pat.given_name, pat.family_name, pat.gender, 
+	(SELECT pdisp.patient_id, pdisp.encounter_id, pat.st_id,
+		pat.national_id, pat.given_name, pat.family_name, pat.gender,
 		pat.birthdate, pat.mother_name, pat.telephone, pdisp.visit_date,
 		COUNT(pdisp.drug_id), pat.organisation_uid
-	FROM isanteplus.patient_dispensing pdisp, isanteplus.patient pat 
+	FROM isanteplus.patient_dispensing pdisp, isanteplus.patient pat
 	WHERE pdisp.patient_id = pat.patient_id
 		AND pdisp.arv_drug = 1065
 	GROUP BY pdisp.patient_id, pdisp.drug_id, pdisp.visit_date
 	HAVING COUNT(pdisp.drug_id) > 1) pa
-WHERE pa.patient_id = en.patient_id 
+WHERE pa.patient_id = en.patient_id
 	AND en.form_id = f.form_id
 	AND pa.encounter_id = en.encounter_id
     AND pa.organisation_uid = org.uid
-	AND FIND_IN_SET("g7Lr4IygqQ9", org.path);]]>
+	AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 		</queryString>
 		<field name="Fiche" class="java.lang.String"/>
 		<field name="Code ST" class="java.lang.String"/>
