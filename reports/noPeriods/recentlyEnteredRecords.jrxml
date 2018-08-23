@@ -45,7 +45,8 @@ WHERE p.patient_id=enc.patient_id
 	AND enc.creator=usr.user_id
     	AND p.organisation_uid = org.uid
 	AND FIND_IN_SET($P{organisationunits_uid}, org.path)
-GROUP BY DATE(enc.date_created) DESC]]>
+GROUP BY DATE(enc.date_created) DESC
+LIMIT 100;]]>
 		</queryString>
 		<field name="No. de patient attribué par le site" class="java.lang.String"/>
 		<field name="utilisateur" class="java.lang.String"/>
