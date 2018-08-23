@@ -222,10 +222,10 @@ WHERE pa.patient_id = en.patient_id
 								<text><![CDATA[Fiche]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
+						<jr:detailCell style="table 5_TD" height="50" rowSpan="1">
 							<box topPadding="4" leftPadding="4"/>
 							<textField>
-								<reportElement x="0" y="0" width="86" height="16" uuid="5a9bdd69-f827-44d0-83b7-9e1f07e2e496"/>
+								<reportElement x="0" y="0" width="86" height="46" uuid="5a9bdd69-f827-44d0-83b7-9e1f07e2e496"/>
 								<textFieldExpression><![CDATA[$F{Fiche}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -238,10 +238,10 @@ WHERE pa.patient_id = en.patient_id
 								<text><![CDATA[Code ST]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
+						<jr:detailCell style="table 5_TD" height="50" rowSpan="1">
 							<box topPadding="4" leftPadding="4"/>
 							<textField>
-								<reportElement x="0" y="0" width="46" height="16" uuid="328fc8c3-b2c5-4ccb-ae10-526185e5acfd"/>
+								<reportElement x="0" y="0" width="46" height="46" uuid="328fc8c3-b2c5-4ccb-ae10-526185e5acfd"/>
 								<textFieldExpression><![CDATA[$F{Code ST}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -254,10 +254,10 @@ WHERE pa.patient_id = en.patient_id
 								<text><![CDATA[Code national]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
+						<jr:detailCell style="table 5_TD" height="50" rowSpan="1">
 							<box topPadding="4" leftPadding="4"/>
 							<textField>
-								<reportElement x="0" y="0" width="76" height="16" uuid="f1882492-9e76-47d1-ac07-a35d85f07e00"/>
+								<reportElement x="0" y="0" width="76" height="46" uuid="f1882492-9e76-47d1-ac07-a35d85f07e00"/>
 								<textFieldExpression><![CDATA[$F{Code national}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -270,10 +270,10 @@ WHERE pa.patient_id = en.patient_id
 								<text><![CDATA[Prénom]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
+						<jr:detailCell style="table 5_TD" height="50" rowSpan="1">
 							<box topPadding="4" leftPadding="4"/>
 							<textField>
-								<reportElement x="0" y="0" width="86" height="16" uuid="b44c6aa7-d1b8-40c9-9164-5dae4f05c3a1"/>
+								<reportElement x="0" y="0" width="86" height="46" uuid="b44c6aa7-d1b8-40c9-9164-5dae4f05c3a1"/>
 								<textFieldExpression><![CDATA[$F{Prénom}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -286,10 +286,10 @@ WHERE pa.patient_id = en.patient_id
 								<text><![CDATA[Nom]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
+						<jr:detailCell style="table 5_TD" height="50" rowSpan="1">
 							<box topPadding="4" leftPadding="4"/>
 							<textField>
-								<reportElement x="0" y="0" width="86" height="16" uuid="e7753cb6-2a90-48d5-bf95-766c20dd154e"/>
+								<reportElement x="0" y="0" width="86" height="46" uuid="e7753cb6-2a90-48d5-bf95-766c20dd154e"/>
 								<textFieldExpression><![CDATA[$F{Nom}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -302,10 +302,10 @@ WHERE pa.patient_id = en.patient_id
 								<text><![CDATA[Sexe]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
+						<jr:detailCell style="table 5_TD" height="50" rowSpan="1">
 							<box topPadding="4" leftPadding="4"/>
 							<textField>
-								<reportElement x="0" y="0" width="36" height="16" uuid="97bbbb3b-18dd-4e03-a049-8fb44e2f86ac"/>
+								<reportElement x="0" y="0" width="36" height="46" uuid="97bbbb3b-18dd-4e03-a049-8fb44e2f86ac"/>
 								<textFieldExpression><![CDATA[$F{Sexe}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -318,10 +318,10 @@ WHERE pa.patient_id = en.patient_id
 								<text><![CDATA[Âge]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
+						<jr:detailCell style="table 5_TD" height="50" rowSpan="1">
 							<box topPadding="4" leftPadding="4"/>
 							<textField>
-								<reportElement x="0" y="0" width="36" height="16" uuid="7c65538d-a758-4a80-9cf5-576f68779aeb"/>
+								<reportElement x="0" y="0" width="36" height="46" uuid="7c65538d-a758-4a80-9cf5-576f68779aeb"/>
 								<textFieldExpression><![CDATA[$F{Âge}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -334,10 +334,10 @@ WHERE pa.patient_id = en.patient_id
 								<text><![CDATA[Nom de la mère]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
+						<jr:detailCell style="table 5_TD" height="50" rowSpan="1">
 							<box topPadding="4" leftPadding="4"/>
 							<textField>
-								<reportElement x="0" y="0" width="86" height="16" uuid="b70e10fc-ed19-46cf-be72-0fbb9aececff"/>
+								<reportElement x="0" y="0" width="86" height="46" uuid="b70e10fc-ed19-46cf-be72-0fbb9aececff"/>
 								<textFieldExpression><![CDATA[$F{Nom de la mère}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -350,10 +350,10 @@ WHERE pa.patient_id = en.patient_id
 								<text><![CDATA[Téléphone]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
+						<jr:detailCell style="table 5_TD" height="50" rowSpan="1">
 							<box topPadding="4" leftPadding="4"/>
 							<textField>
-								<reportElement x="0" y="0" width="86" height="16" uuid="d3fac551-57fa-49b9-8dac-a82c283ee4e4"/>
+								<reportElement x="0" y="0" width="86" height="46" uuid="d3fac551-57fa-49b9-8dac-a82c283ee4e4"/>
 								<textFieldExpression><![CDATA[$F{Téléphone}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -366,10 +366,10 @@ WHERE pa.patient_id = en.patient_id
 								<text><![CDATA[Date visite]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
+						<jr:detailCell style="table 5_TD" height="50" rowSpan="1">
 							<box topPadding="4" leftPadding="4"/>
 							<textField>
-								<reportElement x="0" y="0" width="86" height="16" uuid="88401aca-e0e3-4a3e-8918-fcc5665649e0"/>
+								<reportElement x="0" y="0" width="86" height="46" uuid="88401aca-e0e3-4a3e-8918-fcc5665649e0"/>
 								<textFieldExpression><![CDATA[$F{Date visite}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
