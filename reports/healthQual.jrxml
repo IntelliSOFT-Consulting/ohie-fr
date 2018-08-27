@@ -2237,7 +2237,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{maleNumerator} * 100 / $F{maleDenominator}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} * 100. / $F{maleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -2257,7 +2257,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{femaleNumerator} * 100 / $F{femaleDenominator}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{femaleDenominator} != 0 ? String.format("%.2f", ($F{femaleNumerator} * 100. / $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -2277,7 +2277,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($F{maleNumerator} + $F{femaleNumerator}) * 100 / ($F{maleDenominator} + $F{femaleDenominator})]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} + $F{femaleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} + $F{femaleNumerator}) * 100. / ($F{maleDenominator} + $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -2452,7 +2452,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{maleNumerator} * 100 / $F{maleDenominator}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} * 100. / $F{maleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -2472,7 +2472,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{femaleNumerator} * 100 / $F{femaleDenominator}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{femaleDenominator} != 0 ? String.format("%.2f", ($F{femaleNumerator} * 100. / $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -2492,7 +2492,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($F{maleNumerator} + $F{femaleNumerator}) * 100 / ($F{maleDenominator} + $F{femaleDenominator})]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} + $F{femaleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} + $F{femaleNumerator}) * 100. / ($F{maleDenominator} + $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -2667,7 +2667,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{maleNumerator} * 100 / $F{maleDenominator}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} * 100. / $F{maleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -2687,7 +2687,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{femaleNumerator} * 100 / $F{femaleDenominator}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{femaleDenominator} != 0 ? String.format("%.2f", ($F{femaleNumerator} * 100. / $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -2707,7 +2707,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($F{maleNumerator} + $F{femaleNumerator}) * 100 / ($F{maleDenominator} + $F{femaleDenominator})]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} + $F{femaleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} + $F{femaleNumerator}) * 100. / ($F{maleDenominator} + $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -2882,7 +2882,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{maleNumerator} * 100 / $F{maleDenominator}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} * 100. / $F{maleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -2902,7 +2902,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{femaleNumerator} * 100 / $F{femaleDenominator}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{femaleDenominator} != 0 ? String.format("%.2f", ($F{femaleNumerator} * 100. / $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -2922,7 +2922,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($F{maleNumerator} + $F{femaleNumerator}) * 100 / ($F{maleDenominator} + $F{femaleDenominator})]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} + $F{femaleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} + $F{femaleNumerator}) * 100. / ($F{maleDenominator} + $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -3097,7 +3097,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{maleNumerator} * 100 / $F{maleDenominator}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} * 100. / $F{maleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -3117,7 +3117,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{femaleNumerator} * 100 / $F{femaleDenominator}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{femaleDenominator} != 0 ? String.format("%.2f", ($F{femaleNumerator} * 100. / $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -3137,7 +3137,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($F{maleNumerator} + $F{femaleNumerator}) * 100 / ($F{maleDenominator} + $F{femaleDenominator})]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} + $F{femaleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} + $F{femaleNumerator}) * 100. / ($F{maleDenominator} + $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -3314,7 +3314,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{maleNumerator} * 100 / $F{maleDenominator}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} * 100. / $F{maleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -3334,7 +3334,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{femaleNumerator} * 100 / $F{femaleDenominator}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{femaleDenominator} != 0 ? String.format("%.2f", ($F{femaleNumerator} * 100. / $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -3354,7 +3354,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($F{maleNumerator} + $F{femaleNumerator}) * 100 / ($F{maleDenominator} + $F{femaleDenominator})]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} + $F{femaleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} + $F{femaleNumerator}) * 100. / ($F{maleDenominator} + $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -3529,7 +3529,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{maleNumerator} * 100 / $F{maleDenominator}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} * 100. / $F{maleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -3549,7 +3549,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{femaleNumerator} * 100 / $F{femaleDenominator}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{femaleDenominator} != 0 ? String.format("%.2f", ($F{femaleNumerator} * 100. / $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -3569,7 +3569,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($F{maleNumerator} + $F{femaleNumerator}) * 100 / ($F{maleDenominator} + $F{femaleDenominator})]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} + $F{femaleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} + $F{femaleNumerator}) * 100. / ($F{maleDenominator} + $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -3744,7 +3744,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{maleNumerator} * 100 / $F{maleDenominator}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} * 100. / $F{maleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -3764,7 +3764,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{femaleNumerator} * 100 / $F{femaleDenominator}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{femaleDenominator} != 0 ? String.format("%.2f", ($F{femaleNumerator} * 100. / $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -3784,7 +3784,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($F{maleNumerator} + $F{femaleNumerator}) * 100 / ($F{maleDenominator} + $F{femaleDenominator})]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} + $F{femaleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} + $F{femaleNumerator}) * 100. / ($F{maleDenominator} + $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -3959,7 +3959,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{maleNumerator} * 100 / $F{maleDenominator}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} * 100. / $F{maleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -3979,7 +3979,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{femaleNumerator} * 100 / $F{femaleDenominator}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{femaleDenominator} != 0 ? String.format("%.2f", ($F{femaleNumerator} * 100. / $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -3999,7 +3999,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($F{maleNumerator} + $F{femaleNumerator}) * 100 / ($F{maleDenominator} + $F{femaleDenominator})]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} + $F{femaleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} + $F{femaleNumerator}) * 100. / ($F{maleDenominator} + $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -4174,7 +4174,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{maleNumerator} * 100 / $F{maleDenominator}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} * 100. / $F{maleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -4194,7 +4194,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{femaleNumerator} * 100 / $F{femaleDenominator}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{femaleDenominator} != 0 ? String.format("%.2f", ($F{femaleNumerator} * 100. / $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -4214,7 +4214,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($F{maleNumerator} + $F{femaleNumerator}) * 100 / ($F{maleDenominator} + $F{femaleDenominator})]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} + $F{femaleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} + $F{femaleNumerator}) * 100. / ($F{maleDenominator} + $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -4391,7 +4391,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($F{maleDenominator} != 0 ? $F{maleNumerator} * 100 / $F{maleDenominator} : "N/A")]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} * 100. / $F{maleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -4411,7 +4411,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($F{femaleDenominator} != 0 ? $F{femaleNumerator} * 100 / $F{femaleDenominator} : "N/A")]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{femaleDenominator} != 0 ? String.format("%.2f", ($F{femaleNumerator} * 100. / $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -4431,7 +4431,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($F{maleDenominator} + $F{femaleDenominator} != 0 ? ($F{maleNumerator} + $F{femaleNumerator}) * 100 / ($F{maleDenominator} + $F{femaleDenominator}) : "N/A")]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} + $F{femaleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} + $F{femaleNumerator}) * 100. / ($F{maleDenominator} + $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -4606,7 +4606,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($F{maleDenominator} != 0 ? $F{maleNumerator} * 100 / $F{maleDenominator} : "N/A")]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} * 100. / $F{maleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -4626,7 +4626,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($F{femaleDenominator} != 0 ? $F{femaleNumerator} * 100 / $F{femaleDenominator} : "N/A")]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{femaleDenominator} != 0 ? String.format("%.2f", ($F{femaleNumerator} * 100. / $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -4646,7 +4646,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($F{maleDenominator} + $F{femaleDenominator} != 0 ? ($F{maleNumerator} + $F{femaleNumerator}) * 100 / ($F{maleDenominator} + $F{femaleDenominator}) : "N/A")]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} + $F{femaleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} + $F{femaleNumerator}) * 100. / ($F{maleDenominator} + $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -4821,7 +4821,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($F{maleDenominator} != 0 ? $F{maleNumerator} * 100 / $F{maleDenominator} : "N/A")]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} * 100. / $F{maleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -4841,7 +4841,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($F{femaleDenominator} != 0 ? $F{femaleNumerator} * 100 / $F{femaleDenominator} : "N/A")]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{femaleDenominator} != 0 ? String.format("%.2f", ($F{femaleNumerator} * 100. / $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -4861,7 +4861,7 @@ WHERE
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
-								<textFieldExpression><![CDATA[($F{maleDenominator} + $F{femaleDenominator} != 0 ? ($F{maleNumerator} + $F{femaleNumerator}) * 100 / ($F{maleDenominator} + $F{femaleDenominator}) : "N/A")]]></textFieldExpression>
+								<textFieldExpression><![CDATA[($F{maleDenominator} + $F{femaleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} + $F{femaleNumerator}) * 100. / ($F{maleDenominator} + $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
