@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="patientAgeGroup" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df48aa2c-3795-40ea-8bb4-7e8988796c80">
 	<property name="ireport.zoom" value="0.75"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="2115"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -5519,7 +5519,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Pediatric 1: Proportion of children regularly followed on ART]]></text>
+				<text><![CDATA[Proportion of children regularly followed on ART]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="175" width="572" height="90" uuid="bb6f0924-3944-4524-bb18-a9f7f33ec715"/>
@@ -5734,7 +5734,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Pediatric 2: Proportion of children tested positive for HIV and placed on ART during the selected period]]></text>
+				<text><![CDATA[Proportion of children tested positive for HIV and placed on ART during the selected period]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="320" width="572" height="90" uuid="1991b4fb-a75a-4065-8b5d-450300b4402e"/>
@@ -5949,7 +5949,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Pediatric 3: Proportion of children exposed to or infected with HIV who received cotrimoxazole prophylaxis during the selected period]]></text>
+				<text><![CDATA[Proportion of children exposed to or infected with HIV who received cotrimoxazole prophylaxis during the selected period]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="463" width="572" height="90" uuid="ed01ebb1-6f9d-40f8-a31d-69bda7d09123"/>
@@ -6164,7 +6164,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Pediatric 4: Proportion of HIV+ children on ART who have had an adherence evaluation during the last 3 months]]></text>
+				<text><![CDATA[Proportion of HIV+ children on ART who have had an adherence evaluation during the last 3 months]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="611" width="572" height="90" uuid="d99cb78c-265c-4ab1-9eb1-aeb31a931eaa"/>
@@ -6589,14 +6589,14 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Pediatric 8: Proportion of HIV-exposed or infected children younger than 1 year of age who received INH chemoprophylaxis during the selected period]]></text>
+				<text><![CDATA[Proportion of HIV-exposed or infected children younger than 1 year of age who received INH chemoprophylaxis during the selected period]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="596" width="572" height="32" uuid="164d9479-c0e0-4663-8f6b-21a429c6c4ec"/>
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Pediatric 9: Proportion of HIV-exposed or HIV+ children who have had a nutritional assessment during the selected period]]></text>
+				<text><![CDATA[Proportion of HIV-exposed or HIV+ children who have had a nutritional assessment during the selected period]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="628" width="572" height="90" uuid="dc91a8ff-9d9a-4f39-96ed-bdbb8a64072f"/>
@@ -6811,7 +6811,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Pediatric 5: Proportion of HIV+ children on ART who are considered adherent]]></text>
+				<text><![CDATA[Proportion of HIV+ children on ART who are considered adherent]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="20" width="572" height="90" uuid="47fe726f-92da-44cd-97fa-cbaac046d46d"/>
@@ -7026,7 +7026,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Pediatric 6: Proportion of HIV+ children tested for TB at enrolment during the selected period]]></text>
+				<text><![CDATA[Proportion of HIV+ children tested for TB at enrolment during the selected period]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="170" width="572" height="90" uuid="0c41e4b3-ea47-4771-a522-f904337a5f7e"/>
@@ -7241,7 +7241,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Pediatric 7: Proportion of eligible (TB-negative) HIV+ children older than 1 year of age who received INH chemoprophylaxis during the selected period]]></text>
+				<text><![CDATA[Proportion of eligible (TB-negative) HIV+ children older than 1 year of age who received INH chemoprophylaxis during the selected period]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="313" width="572" height="90" uuid="2b1a2fdf-9679-48a9-9bb3-eec7947d6c25"/>
@@ -7666,7 +7666,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Pediatric 13. Proportion of HIV-exposed infants who had a negative PCR test result during the selected period]]></text>
+				<text><![CDATA[Proportion of HIV-exposed infants who had a negative PCR test result during the selected period]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="457" width="572" height="90" uuid="5d1094f2-3b00-49a2-927a-fde638bf61eb"/>
@@ -7881,10 +7881,10 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Pediatric 12. Proportion of HIV-exposed infants between 4 weeks old and 18 months old who have received a PCR test during the selected period]]></text>
+				<text><![CDATA[Proportion of HIV-exposed infants between 4 weeks old and 18 months old who have received a PCR test during the selected period]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement key="table 3" style="table 3" x="0" y="264" width="572" height="90" uuid="f904fdd1-5427-4228-9ce4-c967271ea340"/>
+				<reportElement key="table 3" style="table 3" x="0" y="293" width="572" height="90" uuid="f904fdd1-5427-4228-9ce4-c967271ea340"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="pediatric_11" uuid="a5b3a0ab-e7e5-4631-99f6-c95cea347bea">
 						<datasetParameter name="REPORT_CONNECTION">
@@ -8092,14 +8092,14 @@ WHERE
 				</jr:table>
 			</componentElement>
 			<staticText>
-				<reportElement x="0" y="248" width="572" height="16" uuid="3febfd98-4eb9-410f-90fc-7e77ae6ad0e7"/>
+				<reportElement x="0" y="277" width="572" height="16" uuid="3febfd98-4eb9-410f-90fc-7e77ae6ad0e7"/>
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Pediatric 11. Proportion of HIV-exposed infants who received ART prophylaxis during the selected period]]></text>
+				<text><![CDATA[Proportion of HIV-exposed infants who received ART prophylaxis during the selected period]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement key="table 3" style="table 3" x="0" y="32" width="572" height="74" uuid="98d3b2c4-52e2-45ef-bbc6-d2d828534a16"/>
+				<reportElement key="table 3" style="table 3" x="0" y="32" width="572" height="193" uuid="98d3b2c4-52e2-45ef-bbc6-d2d828534a16"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="pediatric_10" uuid="7d396679-7bb8-4e80-88e4-ed47eac93f47">
 						<datasetParameter name="REPORT_CONNECTION">
@@ -8337,7 +8337,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Pediatric 10: Proportion of HIV-exposed or infected children who have correctly followed the Expanded Program on Immunization and the ministry standards for pediatric vaccinations according to their age]]></text>
+				<text><![CDATA[Proportion of HIV-exposed or infected children who have correctly followed the Expanded Program on Immunization and the ministry standards for pediatric vaccinations according to their age]]></text>
 			</staticText>
 		</band>
 	</detail>
