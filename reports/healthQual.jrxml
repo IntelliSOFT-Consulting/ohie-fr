@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="patientAgeGroup" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df48aa2c-3795-40ea-8bb4-7e8988796c80">
 	<property name="ireport.zoom" value="0.75"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="2485"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -2026,12 +2026,12 @@ WHERE
 	<parameter name="organisationunits_uid" class="java.lang.String"/>
 	<parameter name="organisationunit_name" class="java.lang.String"/>
 	<parameter name="isanteplus_database_con" class="java.sql.Connection" isForPrompting="false">
-		<defaultValueExpression><![CDATA[java.sql.DriverManager.getConnection("jdbc:mysql://172.18.0.5","root","shr")]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[java.sql.DriverManager.getConnection("jdbc:mysql://${MYSQL_HOST}:3306/","root","${MYSQL_ROOT_PASSWORD}")]]></defaultValueExpression>
 	</parameter>
 	<queryString language="plsql">
 		<![CDATA[SELECT 1;]]>
 	</queryString>
-	<field name="1" class="java.lang.Integer"/>
+	<field name="?column?" class="java.lang.Integer"/>
 	<title>
 		<band height="33" splitType="Stretch">
 			<staticText>
@@ -8100,7 +8100,7 @@ WHERE
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="32" width="572" height="193" uuid="98d3b2c4-52e2-45ef-bbc6-d2d828534a16"/>
-				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
 					<datasetRun subDataset="pediatric_10" uuid="7d396679-7bb8-4e80-88e4-ed47eac93f47">
 						<datasetParameter name="REPORT_CONNECTION">
 							<datasetParameterExpression><![CDATA[$P{isanteplus_database_con}]]></datasetParameterExpression>
