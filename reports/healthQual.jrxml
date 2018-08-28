@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="patientAgeGroup" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df48aa2c-3795-40ea-8bb4-7e8988796c80">
 	<property name="ireport.zoom" value="0.75"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="2485"/>
+	<property name="ireport.y" value="2629"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -115,7 +115,8 @@
         ) THEN p.patient_id ELSE null END
     ) AS 'maleDenominator'
 FROM isanteplus.patient p
-    LEFT JOIN isanteplus.patient_dispensing pd ON p.patient_id = pd.patient_id
+    LEFT JOIN isanteplus.patient_dispensing pd ON p.patient_id = pd.patient_id,
+    isanteplus.org_code_uid org
 WHERE pd.drug_id IN (SELECT drug_id FROM isanteplus.arv_drugs)  -- ART treatment
     AND p.patient_id NOT IN (   -- Exclude deceased (159), transfer (159492)
         SELECT discon.patient_id
@@ -125,7 +126,9 @@ WHERE pd.drug_id IN (SELECT drug_id FROM isanteplus.arv_drugs)  -- ART treatment
         SELECT patient_id
         FROM isanteplus.patient_status_arv
         WHERE start_date BETWEEN SUBDATE(STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d'), INTERVAL 1 MONTH) AND STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d')
-    ) AND TIMESTAMPDIFF(YEAR, p.birthdate, STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d')) > 14; -- adult]]>
+    ) AND TIMESTAMPDIFF(YEAR, p.birthdate, STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d')) > 14 -- adult
+      AND p.organisation_uid = org.uid
+      AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 		</queryString>
 		<field name="femaleNumerator" class="java.lang.Long"/>
 		<field name="maleNumerator" class="java.lang.Long"/>
@@ -167,7 +170,8 @@ WHERE pd.drug_id IN (SELECT drug_id FROM isanteplus.arv_drugs)  -- ART treatment
     ) AS 'maleDenominator'
 FROM isanteplus.patient p
 INNER JOIN isanteplus.health_qual_patient_visit pv ON p.patient_id = pv.patient_id
-LEFT JOIN isanteplus.patient_laboratory pl ON p.patient_id = pl.patient_id -- join by patient_id, so that we can look for the first HIV visit (numerator)
+LEFT JOIN isanteplus.patient_laboratory pl ON p.patient_id = pl.patient_id, -- join by patient_id, so that we can look for the first HIV visit (numerator)
+isanteplus.org_code_uid org
 WHERE p.vih_status = '1' -- HIV+ patient
     AND pv.encounter_type IN ('1', '9') -- adult or pediatric first HIV visit
     AND pv.visit_date BETWEEN STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d') AND DATE_ADD(STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d'), INTERVAL 1 MONTH) -- the date of first visit
@@ -176,7 +180,9 @@ WHERE p.vih_status = '1' -- HIV+ patient
         FROM isanteplus.discontinuation_reason discon
         WHERE discon.reason IN ('159', '1667', '159492') -- not deceased, discontinued and transferred
     )
-    AND pv.age_in_years > 14;]]>
+    AND pv.age_in_years > 14
+    AND p.organisation_uid = org.uid
+    AND FIND_IN_SET($P{organisationunits_uid}, org.path)]]>
 		</queryString>
 		<field name="femaleNumerator" class="java.lang.Long"/>
 		<field name="maleNumerator" class="java.lang.Long"/>
