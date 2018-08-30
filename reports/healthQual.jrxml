@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="patientAgeGroup" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df48aa2c-3795-40ea-8bb4-7e8988796c80">
 	<property name="ireport.zoom" value="1.3286707500000006"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="4560"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -2079,7 +2079,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Retention of patients on antiretroviral treatment (ART)]]></text>
+				<text><![CDATA[Adulte 1. Rétention des patients en prise en charge ARV]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="30" width="572" height="79" uuid="fc01bc58-c0d9-4bce-a7e5-d2fe350ef6ce"/>
@@ -2294,7 +2294,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[CD4 Assessment at Enrolment]]></text>
+				<text><![CDATA[Adulte 2. CD4 à l’enrôlement]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="141" width="572" height="90" uuid="50530236-ca36-4250-922e-c465596cd52f"/>
@@ -2509,7 +2509,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[ARV Enrolment]]></text>
+				<text><![CDATA[Adulte 3. Enrôlement ARV]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="263" width="572" height="90" uuid="f7be1829-c5f4-46bd-a23e-e3d9e1c3e86d"/>
@@ -2724,7 +2724,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of adult persons living with HIV (PLHIV) who have received cotrimoxazole prophylaxis during the selected period]]></text>
+				<text><![CDATA[Adulte 4. Proportion de PVVIH adulte ayant reçu la prophylaxie au cotrimoxazole durant la période d’analyse]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="398" width="572" height="90" uuid="afa5c180-60aa-4c8b-a443-9fd6e8fb33bd"/>
@@ -2939,7 +2939,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[ Proportion of HIV+ patients on ARVs who have had an adherence evaluation during the last 6 months]]></text>
+				<text><![CDATA[Adulte 5. Proportion de patients VIH+ sous ARV ayant bénéficié d’une évaluation sur l’adhérence au cours des 6 derniers mois]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="535" width="572" height="90" uuid="54096314-7b49-4a39-a1e4-fef218a3f7fb"/>
@@ -3156,7 +3156,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of HIV+ patients on ART who are adherent to treatment during the selected period]]></text>
+				<text><![CDATA[Adulte 6. Proportion de patients VIH + sous ARV considérés comme adhérents durant la période d’analyse]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="32" width="572" height="90" uuid="294b8d52-b2d2-4d2f-9195-b21e09332578"/>
@@ -3371,7 +3371,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of PLHIV tested for TB at enrolment during the selected period]]></text>
+				<text><![CDATA[Adulte 7. Proportion de PVVIH dépistée pour la tuberculose à l’enrôlement durant la période d’analyse]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="172" width="572" height="90" uuid="347f52d1-574b-4d7c-8a7b-19236794531b"/>
@@ -3586,7 +3586,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of PLHIV who received INH chemoprophylaxis during the selected period]]></text>
+				<text><![CDATA[Adulte 8. Proportion de PVVIH ayant reçue la chimio prophylaxie à l’INH durant la période d’analyse]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="311" width="572" height="90" uuid="d4c6f8d5-195f-4959-877f-f6e325e41238"/>
@@ -3801,7 +3801,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of HIV+ patients who have had a nutritional assessment during the selected period]]></text>
+				<text><![CDATA[Adulte 9. Proportion de patients VIH+ ayant bénéficié d’une évaluation nutritionnelle durant la période d’analyse]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="448" width="572" height="90" uuid="5a1072bc-5fea-4076-9dfe-2b7c5aa3dca4"/>
@@ -4016,7 +4016,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of HIV+ patients identified as severely undernourished during the selected period]]></text>
+				<text><![CDATA[Adult 10. Proportion de patients VIH+ en malnutrition sévère durant la période d’analyse]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="581" width="572" height="90" uuid="2ff1179d-1a3f-4b3e-8af6-7b4d31d2362e"/>
@@ -4233,7 +4233,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of HIV+ women who use a family planning method during the selected period]]></text>
+				<text><![CDATA[Adult 11. Proportion de femmes VIH + utilisant une méthode PF durant la période d’analyse]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="32" width="572" height="90" uuid="a6d0e4e6-f67e-413b-b3c0-eabaa5cf1425"/>
@@ -4448,7 +4448,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of HIV+ pregnant women who received triple-drug therapy (HAART) during the selected period]]></text>
+				<text><![CDATA[Adult 12. Proportion de femmes enceintes infectées au VIH ayant reçu la Trithérapie aux ARV durant la période d’analyse]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="170" width="572" height="90" uuid="518f42d6-f2ae-4777-afc2-570a5589c2fc"/>
@@ -4663,7 +4663,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of pregnant women in prenatal care or labor and delivery (L&D) who received an HIV test during the selected period]]></text>
+				<text><![CDATA[Adult 13. Proportion de femmes enceintes en prénatal et salle de travail ayant bénéficié d’un test VIH au cours de la période d’analyse]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="309" width="572" height="90" uuid="efe19586-5e35-4688-8b39-1050e586cd6a"/>
@@ -4878,7 +4878,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of HIV+ patients on ART who received a viral load test at 6 months after the initiation of treatment]]></text>
+				<text><![CDATA[Adult 14. Proportion de patients VIH+ sous traitement ARV ayant bénéficié d'une évaluation de leur Charge virale à 6 mois après le début de leur traitement]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="452" width="572" height="90" uuid="e5f0ea17-82dc-46cc-a65d-eb800b64a1d2"/>
@@ -5093,7 +5093,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of HIV + patients on ART treatment who received an assessment of their viral load]]></text>
+				<text><![CDATA[Adult 15. Proportion de patients VIH+ sous traitement ARV ayant bénéficié d'une évaluation de leur Charge virale]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="600" width="572" height="90" uuid="2b1a9d56-ce6a-4a18-a554-3880464af5d4"/>
@@ -5310,7 +5310,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of HIV+ patients on ART for more than 6 months who have an undetectable viral load]]></text>
+				<text><![CDATA[Adult 16. Proportion de patients VIH+ sous traitement ARV depuis plus de 6 mois ayant une charge virale indétectable]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="32" width="572" height="90" uuid="034f8c3a-abc3-49d9-9b2e-1af52301693a"/>
@@ -5525,7 +5525,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of children regularly followed on ART]]></text>
+				<text><![CDATA[Pédiatrique 1. Proportion d’enfants régulièrement suivis sous ARV]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="175" width="572" height="90" uuid="bb6f0924-3944-4524-bb18-a9f7f33ec715"/>
@@ -5740,7 +5740,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of children tested positive for HIV and placed on ART during the selected period]]></text>
+				<text><![CDATA[Pédiatrique 2. Proportion d’enfants testes VIH positifs placés sous ARV durant la période d’analyse]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="320" width="572" height="90" uuid="1991b4fb-a75a-4065-8b5d-450300b4402e"/>
@@ -5955,7 +5955,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of children exposed to or infected with HIV who received cotrimoxazole prophylaxis during the selected period]]></text>
+				<text><![CDATA[Pédiatrique 3. Proportion d’enfants exposés et infectés au VIH ayant reçu la prophylaxie au cotrimoxazole durant la période d’analyse]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="463" width="572" height="90" uuid="ed01ebb1-6f9d-40f8-a31d-69bda7d09123"/>
@@ -6170,7 +6170,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of HIV+ children on ART who have had an adherence evaluation during the last 3 months]]></text>
+				<text><![CDATA[Pédiatrique 4. Proportion d’enfants VIH sous ARV ayant bénéficié d’une évaluation sur l’adhérence au cours des 3 derniers mois.]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="611" width="572" height="90" uuid="d99cb78c-265c-4ab1-9eb1-aeb31a931eaa"/>
@@ -6595,17 +6595,17 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of HIV-exposed or infected children younger than 1 year of age who received INH chemoprophylaxis during the selected period]]></text>
+				<text><![CDATA[Pédiatrique 8. Pourcentage d’enfants exposes ou infectes au VIH âgés de moins d’un an ayant reçu la prophylaxie a l’INH durant la période d’analyse]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="596" width="572" height="32" uuid="164d9479-c0e0-4663-8f6b-21a429c6c4ec"/>
+				<reportElement x="0" y="596" width="572" height="19" uuid="164d9479-c0e0-4663-8f6b-21a429c6c4ec"/>
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of HIV-exposed or HIV+ children who have had a nutritional assessment during the selected period]]></text>
+				<text><![CDATA[Pédiatrique 9. Proportion d’enfants ayant bénéficié d’une évaluation nutritionnelle au cours de la période d’analyse]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement key="table 3" style="table 3" x="0" y="628" width="572" height="90" uuid="dc91a8ff-9d9a-4f39-96ed-bdbb8a64072f"/>
+				<reportElement key="table 3" style="table 3" x="0" y="615" width="572" height="90" uuid="dc91a8ff-9d9a-4f39-96ed-bdbb8a64072f"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="pediatric_9" uuid="ba8edb45-0290-45e8-bfbf-6f2d5a872a13">
 						<datasetParameter name="REPORT_CONNECTION">
@@ -6817,7 +6817,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of HIV+ children on ART who are considered adherent]]></text>
+				<text><![CDATA[Pédiatrique 5. Proportion d’enfants VIH+ sous ARV considérés comme adhérents]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="20" width="572" height="90" uuid="47fe726f-92da-44cd-97fa-cbaac046d46d"/>
@@ -7028,11 +7028,11 @@ WHERE
 				</jr:table>
 			</componentElement>
 			<staticText>
-				<reportElement x="0" y="149" width="572" height="21" uuid="5cdcb59a-ba33-44a4-87c5-df43017bcd95"/>
+				<reportElement x="0" y="152" width="572" height="18" uuid="5cdcb59a-ba33-44a4-87c5-df43017bcd95"/>
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of HIV+ children tested for TB at enrolment during the selected period]]></text>
+				<text><![CDATA[Pédiatrique 6. Proportion d’enfants VIH+ dépistés pour la tuberculose à l’enrôlement au cours de la période d’analyse]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="170" width="572" height="90" uuid="0c41e4b3-ea47-4771-a522-f904337a5f7e"/>
@@ -7247,7 +7247,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of eligible (TB-negative) HIV+ children older than 1 year of age who received INH chemoprophylaxis during the selected period]]></text>
+				<text><![CDATA[Pédiatrique 7. Pourcentage d’enfants VIH positifs âgés de plus d’un an éligible ayant reçu la prophylaxie a l’INH durant la période d’analyse]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="325" width="572" height="90" uuid="2b1a2fdf-9679-48a9-9bb3-eec7947d6c25"/>
@@ -7668,11 +7668,11 @@ WHERE
 				</jr:table>
 			</componentElement>
 			<staticText>
-				<reportElement x="0" y="573" width="572" height="16" uuid="6882a634-baad-49a3-814e-d8614d35118e"/>
+				<reportElement x="0" y="575" width="572" height="14" uuid="6882a634-baad-49a3-814e-d8614d35118e"/>
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of HIV-exposed infants who had a negative PCR test result during the selected period]]></text>
+				<text><![CDATA[Pédiatrique 13. Proportion d’enfants exposés au VIH ayant un test PCR négatif au cours de la période d’analyse]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="457" width="572" height="90" uuid="5d1094f2-3b00-49a2-927a-fde638bf61eb"/>
@@ -7887,7 +7887,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of HIV-exposed infants between 4 weeks old and 18 months old who have received a PCR test during the selected period]]></text>
+				<text><![CDATA[Pédiatrique 12. Proportion d’enfants exposés au VIH âgés de 4 semaines à 12 mois ayant bénéficié d’un test PCR diagnostic au cours de la période d’analyse]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="293" width="572" height="90" uuid="f904fdd1-5427-4228-9ce4-c967271ea340"/>
@@ -8098,11 +8098,11 @@ WHERE
 				</jr:table>
 			</componentElement>
 			<staticText>
-				<reportElement x="0" y="277" width="572" height="16" uuid="3febfd98-4eb9-410f-90fc-7e77ae6ad0e7"/>
+				<reportElement x="0" y="268" width="572" height="25" uuid="3febfd98-4eb9-410f-90fc-7e77ae6ad0e7"/>
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of HIV-exposed infants who received ART prophylaxis during the selected period]]></text>
+				<text><![CDATA[Pédiatrique 11. Proportion d’enfants exposés au VIH ayant bénéficié de la prophylaxie aux ARV au cours de la période d’analyse]]></text>
 			</staticText>
 			<componentElement>
 				<reportElement key="table 3" style="table 3" x="0" y="32" width="572" height="193" uuid="98d3b2c4-52e2-45ef-bbc6-d2d828534a16"/>
@@ -8343,7 +8343,7 @@ WHERE
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Proportion of HIV-exposed or infected children who have correctly followed the Expanded Program on Immunization and the ministry standards for pediatric vaccinations according to their age]]></text>
+				<text><![CDATA[Pédiatrique 10. Proportion d’enfants exposés ou infectés au VIH ayant reçu les vaccins adéquats pour leur âge selon le Programme élargi de Vaccination (PEV) et les normes pédiatriques du ministère]]></text>
 			</staticText>
 		</band>
 	</detail>
