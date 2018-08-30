@@ -180,7 +180,7 @@ WHERE p.vih_status = '1' -- HIV+ patient
         FROM isanteplus.discontinuation_reason discon
         WHERE discon.reason IN ('159', '1667', '159492') -- not deceased, discontinued and transferred
     )
-    AND pv.age_in_years > 14
+    AND (pv.age_in_years IS NULL OR pv.age_in_years > 14)
     AND p.organisation_uid = org.uid
     AND FIND_IN_SET($P{organisationunits_uid}, org.path)]]>
 		</queryString>
@@ -233,7 +233,7 @@ WHERE p.vih_status = '1' -- HIV+ patient
         FROM isanteplus.discontinuation_reason discon
         WHERE discon.reason IN ('159', '1667', '159492') -- not deceased, discontinued and transferred
     )
-    AND pv.age_in_years > 14
+    AND (pv.age_in_years IS NULL OR pv.age_in_years > 14)
     AND p.organisation_uid = org.uid
   AND FIND_IN_SET($P{organisationunits_uid}, org.path)]]>
 		</queryString>
@@ -289,7 +289,7 @@ WHERE
                 DATE_FORMAT(pv.visit_date, "%Y%m") = $P{periods_iso}
                 OR DATE_FORMAT(pp.visit_date, "%Y%m") = $P{periods_iso}
             )
-            AND pv.age_in_years > 14
+            AND (pv.age_in_years IS NULL OR pv.age_in_years > 14)
     )
     AND p.patient_id IN (
         SELECT poa.patient_id
@@ -347,7 +347,7 @@ WHERE
             OR DATE(pp.visit_date) BETWEEN SUBDATE(STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d'), INTERVAL 3 MONTH) AND STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d')
         )
         AND (
-            pv.age_in_years > 14 -- An adult
+            pv.age_in_years IS NULL OR pv.age_in_years > 14 -- An adult
         )
     )
     AND p.patient_id IN (SELECT poa.patient_id FROM isanteplus.patient_on_arv poa)
@@ -411,7 +411,7 @@ WHERE p.vih_status = '1'
         FROM isanteplus.discontinuation_reason discon
         WHERE discon.reason IN ('159', '1667', '159492')
     )
-    AND pv.age_in_years > 14 -- An adult
+    AND (pv.age_in_years IS NULL OR pv.age_in_years > 14) -- An adult
     AND p.organisation_uid = org.uid
 	AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 		</queryString>
@@ -470,7 +470,7 @@ WHERE
         WHERE
             pv.encounter_type IN ('1', '9') -- adult or pediatric first HIV visit
             AND DATE_FORMAT(pv.visit_date, "%Y%m") = $P{periods_iso} -- the date of first visit
-            AND pv.age_in_years > 14
+            AND (pv.age_in_years IS NULL OR pv.age_in_years > 14)
     )
     AND p.patient_id NOT IN (
         SELECT discon.patient_id
@@ -531,7 +531,7 @@ WHERE
         WHERE
             pv.encounter_type IN ('1', '9') -- adult or pediatric first HIV visit
             AND DATE_FORMAT(pv.visit_date, "%Y%m") = $P{periods_iso} -- the date of first visit
-            AND pv.age_in_years > 14
+            AND (pv.age_in_years IS NULL OR pv.age_in_years > 14)
     )
     AND p.patient_id NOT IN (
         SELECT discon.patient_id
@@ -595,7 +595,7 @@ WHERE
     FROM isanteplus.health_qual_patient_visit pv
     WHERE
       DATE_FORMAT(pv.visit_date, "%Y%m") = $P{periods_iso}
-      AND pv.age_in_years > 14
+      AND (pv.age_in_years IS NULL OR pv.age_in_years > 14)
   )
   AND p.patient_id NOT IN ( -- Exclude deceased (159), discontinuations (1667), transfer (159492)
       SELECT discon.patient_id
@@ -659,7 +659,7 @@ WHERE
     FROM isanteplus.health_qual_patient_visit pv
     WHERE
       DATE_FORMAT(pv.visit_date, "%Y%m") = $P{periods_iso}
-      AND pv.age_in_years > 14
+      AND (pv.age_in_years IS NULL OR pv.age_in_years > 14)
       AND pv.patient_bmi IS NOT NULL
   )
   AND p.patient_id NOT IN ( -- Exclude deceased (159), discontinuations (1667), transfer (159492)
@@ -720,7 +720,7 @@ WHERE
         WHERE discon.reason IN (159,1667,159492)
     )
     AND p.organisation_uid = org.uid
-	AND FIND_IN_SET($P{organisationunits_uid}, org.path)]]>
+    AND FIND_IN_SET($P{organisationunits_uid}, org.path)]]>
 		</queryString>
 		<field name="femaleNumerator" class="java.lang.Long"/>
 		<field name="maleNumerator" class="java.lang.Long"/>
@@ -779,7 +779,7 @@ WHERE
     AND p.patient_id IN ( -- An adult in a given period
         SELECT hqpv.patient_id
         FROM isanteplus.health_qual_patient_visit hqpv
-        WHERE hqpv.age_in_years > 14
+        WHERE (hqpv.age_in_years IS NULL OR hqpv.age_in_years > 14)
     )
     AND p.organisation_uid = org.uid
 	AND FIND_IN_SET($P{organisationunits_uid}, org.path)]]>
@@ -836,11 +836,11 @@ WHERE
     AND p.patient_id IN ( -- An adult in a given period
         SELECT hqpv.patient_id
         FROM isanteplus.health_qual_patient_visit hqpv
-        WHERE hqpv.age_in_years > 14
+        WHERE (hqpv.age_in_years IS NULL OR hqpv.age_in_years > 14)
             AND DATE_FORMAT(hqpv.visit_date, "%Y%m") = $P{periods_iso}
     )
     AND p.organisation_uid = org.uid
-	AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
+    AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 		</queryString>
 		<field name="femaleNumerator" class="java.lang.Long"/>
 		<field name="maleNumerator" class="java.lang.Long"/>
@@ -902,7 +902,7 @@ WHERE
     AND p.patient_id IN (
         SELECT pv.patient_id
         FROM isanteplus.health_qual_patient_visit pv
-        WHERE pv.age_in_years > 14
+        WHERE (pv.age_in_years IS NULL OR pv.age_in_years > 14)
     )
     AND p.patient_id IN (    -- on ART for at least 6 months
         SELECT pd.patient_id
@@ -931,7 +931,7 @@ WHERE
         WHERE discon.reason IN (159, 1667, 159492)
     )
     AND p.organisation_uid = org.uid
-	AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
+    AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 		</queryString>
 		<field name="femaleNumerator" class="java.lang.Long"/>
 		<field name="maleNumerator" class="java.lang.Long"/>
@@ -993,7 +993,7 @@ WHERE
     AND p.patient_id IN (
         SELECT pv.patient_id
         FROM isanteplus.health_qual_patient_visit pv
-        WHERE pv.age_in_years > 14
+        WHERE (pv.age_in_years IS NULL OR pv.age_in_years > 14)
     )
     AND p.patient_id IN (    -- on ART for at least 6 months
         SELECT pd.patient_id
@@ -1022,7 +1022,7 @@ WHERE
         WHERE discon.reason IN (159, 1667, 159492)
     )
     AND p.organisation_uid = org.uid
-	AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
+    AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 		</queryString>
 		<field name="femaleNumerator" class="java.lang.Long"/>
 		<field name="maleNumerator" class="java.lang.Long"/>
@@ -1073,7 +1073,7 @@ WHERE
     AND p.patient_id IN (
         SELECT pv.patient_id
         FROM isanteplus.health_qual_patient_visit pv
-        WHERE pv.age_in_years > 14
+        WHERE (pv.age_in_years IS NULL OR pv.age_in_years > 14)
     )
     AND (	-- viral load test completed
         plab.test_done = 1
@@ -1104,7 +1104,7 @@ WHERE
         WHERE discon.reason IN (159, 1667, 159492)
 	)
     AND p.organisation_uid = org.uid
-	AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
+    AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 		</queryString>
 		<field name="femaleNumerator" class="java.lang.Long"/>
 		<field name="maleNumerator" class="java.lang.Long"/>
@@ -1183,7 +1183,7 @@ WHERE
     AND TIMESTAMPDIFF(MONTH, p.birthdate, DATE_ADD(STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d'), INTERVAL 1 MONTH)) <= 18
     AND TIMESTAMPDIFF(WEEK, p.birthdate, DATE_ADD(STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d'), INTERVAL 1 MONTH)) >= 4
     AND p.organisation_uid = org.uid
-	AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
+    AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 		</queryString>
 		<field name="femaleNumerator" class="java.lang.Long"/>
 		<field name="maleNumerator" class="java.lang.Long"/>
@@ -1257,7 +1257,7 @@ WHERE
     AND TIMESTAMPDIFF(MONTH, p.birthdate, DATE_ADD(STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d'), INTERVAL 1 MONTH)) <= 12
     AND TIMESTAMPDIFF(WEEK, p.birthdate, DATE_ADD(STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d'), INTERVAL 1 MONTH)) >= 4
     AND p.organisation_uid = org.uid
-	AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
+    AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 		</queryString>
 		<field name="femaleNumerator" class="java.lang.Long"/>
 		<field name="maleNumerator" class="java.lang.Long"/>
@@ -1317,7 +1317,7 @@ WHERE
                 AND pp.rx_or_prophy = 138405
                )
             )
-            AND phv.age_in_years <= 14
+            AND phv.age_in_years IS NOT NULL AND phv.age_in_years <= 14
     )
     AND p.patient_id NOT IN (
         SELECT discon.patient_id
@@ -1325,7 +1325,7 @@ WHERE
         WHERE discon.reason IN (159,1667,159492)
     )
     AND p.organisation_uid = org.uid
-	AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
+    AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 		</queryString>
 		<field name="femaleNumerator" class="java.lang.Long"/>
 		<field name="maleNumerator" class="java.lang.Long"/>
@@ -1392,7 +1392,7 @@ FROM
      AND p.patient_id IN
        ( SELECT pv.patient_id
         FROM isanteplus.health_qual_patient_visit pv
-        WHERE pv.age_in_years <= 14
+        WHERE pv.age_in_years IS NOT NULL AND pv.age_in_years <= 14
         AND TIMESTAMPDIFF(DAY, p.birthdate, pv.visit_date) <= 270)
         AND p.organisation_uid IN (SELECT org.uid FROM isanteplus.org_code_uid org WHERE FIND_IN_SET($P{organisationunits_uid}, org.path))
    GROUP BY 1,
@@ -1462,7 +1462,7 @@ WHERE
           AND pp.rx_or_prophy = 138405
         )
       )
-      AND phv.age_in_years <= 14
+      AND phv.age_in_years IS NOT NULL AND phv.age_in_years <= 14
   )
     AND p.patient_id NOT IN ( -- excludes
         SELECT discon.patient_id
@@ -1478,7 +1478,7 @@ WHERE
             AND plab.test_result = 1302
     )
     AND p.organisation_uid = org.uid
-	AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
+    AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 		</queryString>
 		<field name="femaleNumerator" class="java.lang.Long"/>
 		<field name="maleNumerator" class="java.lang.Long"/>
@@ -1522,6 +1522,7 @@ ON p.patient_id = pp.patient_id,
 isanteplus.org_code_uid org
 WHERE
     p.vih_status = 1
+    AND p.birthdate IS NOT NULL
     AND TIMESTAMPDIFF(MONTH, p.birthdate, DATE_ADD(STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d'), INTERVAL 1 MONTH)) < 12
     AND p.patient_id IN (
         SELECT pv.patient_id
@@ -1612,7 +1613,7 @@ WHERE FIND_IN_SET($P{organisationunits_uid}, org.path)
             AND plab.test_id = 844
             AND plab.test_result = 1302
     )
-    AND pv.age_in_years <= 14; -- An child]]>
+    AND pv.age_in_years IS NOT NULL AND pv.age_in_years <= 14; -- An child]]>
 		</queryString>
 		<field name="femaleNumerator" class="java.lang.Long"/>
 		<field name="maleNumerator" class="java.lang.Long"/>
@@ -1651,7 +1652,7 @@ WHERE p.organisation_uid = org.uid
         DATE_FORMAT(DATE(phv.visit_date), "%Y%m") = $P{periods_iso}
         OR (DATE_FORMAT(DATE(pp.visit_date), "%Y%m") = $P{periods_iso} AND pp.rx_or_prophy = 138405)
       )
-      AND phv.age_in_years <= 14
+      AND phv.age_in_years IS NOT NULL AND phv.age_in_years <= 14
   )
   AND p.patient_id NOT IN (
     SELECT discon.patient_id
@@ -1732,6 +1733,7 @@ WHERE FIND_IN_SET($P{organisationunits_uid}, org.path)
         AND plab.test_result = 1302
     )
   )
+  AND p.birthdate IS NOT NULL
   AND TIMESTAMPDIFF(WEEK, p.birthdate, DATE_ADD(STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d'), INTERVAL 1 MONTH)) >= 4;]]>
 		</queryString>
 		<field name="femaleNumerator" class="java.lang.Long"/>
@@ -1788,7 +1790,7 @@ WHERE p.organisation_uid = org.uid
           AND pp.rx_or_prophy = 138405
         )
       )
-      AND phv.age_in_years <= 14 -- An child
+      AND phv.age_in_years IS NOT NULL AND phv.age_in_years <= 14 -- An child
   )
   AND p.patient_id IN (SELECT poa.patient_id FROM isanteplus.patient_on_arv poa)
   AND p.patient_id NOT IN (
@@ -1874,7 +1876,7 @@ WHERE
       AND plab.test_id = 844
       AND plab.test_result = 1302
   )
-  AND pv.age_in_years <= 14; -- An child]]>
+  AND pv.age_in_years IS NOT NULL AND pv.age_in_years <= 14; -- An child]]>
 		</queryString>
 		<field name="femaleNumerator" class="java.lang.Long"/>
 		<field name="maleNumerator" class="java.lang.Long"/>
@@ -1928,7 +1930,7 @@ WHERE p.organisation_uid = org.uid
         WHERE
             pv.encounter_type IN ('9') -- pediatric first HIV visit
             AND DATE_FORMAT(pv.visit_date, "%Y%m") = $P{periods_iso} -- the date of first visit
-            AND pv.age_in_years <= 14
+            AND pv.age_in_years IS NOT NULL AND pv.age_in_years <= 14
     )
     AND p.patient_id NOT IN (
         SELECT discon.patient_id
@@ -1993,6 +1995,7 @@ FROM
 WHERE
 	FIND_IN_SET($P{organisationunits_uid}, org.path)
     AND p.vih_status = 1
+    AND p.birthdate IS NOT NULL
     AND TIMESTAMPDIFF(YEAR, p.birthdate, DATE_ADD(STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d'), INTERVAL 1 MONTH)) BETWEEN 1 AND 14
     AND p.patient_id IN (
         SELECT pv.patient_id
