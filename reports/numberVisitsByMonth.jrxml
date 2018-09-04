@@ -67,6 +67,9 @@
 		<parameter name="organisationunits_uid" class="java.lang.String">
 			<defaultValueExpression><![CDATA["a7SxSzggwzc"]]></defaultValueExpression>
 		</parameter>
+		<parameter name="periods_iso" class="java.lang.String">
+			<defaultValueExpression><![CDATA[201805]]></defaultValueExpression>
+		</parameter>
 		<queryString>
 			<![CDATA[select distinct loc.name as Site,MONTH(en.encounter_datetime) as Month,
 YEAR(en.encounter_datetime) as Year,count(distinct en.patient_id) as Count
@@ -76,6 +79,7 @@ ON p.patient_id=en.patient_id, openmrs.location loc, isanteplus.org_code_uid org
 WHERE en.location_id=loc.location_id
 AND p.organisation_uid = org.uid
 AND FIND_IN_SET($P{organisationunits_uid}, org.path)
+AND DATE_FORMAT(en.encounter_datetime, "%Y%m") = $P{periods_iso}
 GROUP BY loc.name, MONTH(en.encounter_datetime), YEAR(en.encounter_datetime)
 ORDER BY 3 DESC;]]>
 		</queryString>
@@ -84,6 +88,8 @@ ORDER BY 3 DESC;]]>
 		<field name="Year" class="java.lang.Integer"/>
 		<field name="Count" class="java.lang.Long"/>
 	</subDataset>
+	<parameter name="periods_iso" class="java.lang.String"/>
+	<parameter name="period_name" class="java.lang.String"/>
 	<parameter name="organisationunits" class="java.lang.String"/>
 	<parameter name="organisationunits_uid" class="java.lang.String"/>
 	<parameter name="organisationunit_name" class="java.lang.String"/>
@@ -111,11 +117,19 @@ ORDER BY 3 DESC;]]>
 	<pageHeader>
 		<band height="24" splitType="Stretch">
 			<textField>
-				<reportElement x="164" y="0" width="150" height="20" uuid="c994a93e-2de6-497f-b1d9-1de738908343"/>
+				<reportElement x="85" y="0" width="127" height="20" uuid="162fa68b-67a0-4a4b-b788-5a49d4d9b2f5"/>
+				<textFieldExpression><![CDATA[$P{period_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="375" y="0" width="150" height="20" uuid="c994a93e-2de6-497f-b1d9-1de738908343"/>
 				<textFieldExpression><![CDATA[$P{organisationunit_name}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="28" y="0" width="124" height="20" uuid="d48f0717-4794-4939-85cc-a1d5ceb46b66"/>
+				<reportElement x="32" y="0" width="38" height="20" uuid="96884c12-7577-4396-87c3-930641fa5757"/>
+				<text><![CDATA[Période:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="0" width="124" height="20" uuid="d48f0717-4794-4939-85cc-a1d5ceb46b66"/>
 				<text><![CDATA[Unité organisationnelle:]]></text>
 			</staticText>
 		</band>
@@ -128,12 +142,15 @@ ORDER BY 3 DESC;]]>
 			<componentElement>
 				<reportElement key="table 2" style="table 2" x="64" y="0" width="447" height="50" uuid="ab97d365-6d68-4376-8761-1dd88b3d0094"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="dataset1" uuid="5a9ca82d-0fdc-4113-a9e5-19c0c76e7252">
+					<datasetRun subDataset="dataset1" uuid="6145a2ae-9c4c-4028-a50f-15cc62cdf3be">
 						<datasetParameter name="REPORT_CONNECTION">
 							<datasetParameterExpression><![CDATA[$P{isanteplus_database_con}]]></datasetParameterExpression>
 						</datasetParameter>
 						<datasetParameter name="organisationunits_uid">
 							<datasetParameterExpression><![CDATA[$P{organisationunits_uid}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="periods_iso">
+							<datasetParameterExpression><![CDATA[$P{periods_iso}]]></datasetParameterExpression>
 						</datasetParameter>
 					</datasetRun>
 					<jr:column width="90" uuid="d508f9c5-505b-4fb4-92ae-ab59493cf0aa">
