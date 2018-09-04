@@ -2147,13 +2147,13 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 						</datasetParameter>
 					</datasetRun>
 					<jr:column width="90" uuid="6f67073a-2285-49f2-b5f6-b5650672b6b8">
-						<jr:columnHeader style="table 7_CH" height="30">
+						<jr:columnHeader style="table 3_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="7a52a848-249a-4280-a2bb-a9333bbb2aba"/>
 								<text><![CDATA[Adulte femme]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 7_TD" height="20">
+						<jr:detailCell style="table 3_TD" height="20">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="581ad8dd-7785-4a64-a4c1-9d06a176c940"/>
 								<textFieldExpression><![CDATA[$F{adulte_Femme}]]></textFieldExpression>
@@ -2161,13 +2161,13 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="90" uuid="59a248a3-6a48-4d0b-a3f7-2bc8989ffb03">
-						<jr:columnHeader style="table 7_CH" height="30">
+						<jr:columnHeader style="table 3_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="8828e186-ce2d-4c7b-a199-c5ad0547c246"/>
 								<text><![CDATA[Adulte homme]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 7_TD" height="20">
+						<jr:detailCell style="table 3_TD" height="20">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="92adbd2a-6ad7-407f-a0b3-bf40dd6656e4"/>
 								<textFieldExpression><![CDATA[$F{adulte_Homme}]]></textFieldExpression>
@@ -2175,13 +2175,13 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="90" uuid="2f819504-9b50-469d-b6cd-b3e6e24f113a">
-						<jr:columnHeader style="table 7_CH" height="30">
+						<jr:columnHeader style="table 3_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="6c96e77d-194b-412e-97d4-2251af843756"/>
 								<text><![CDATA[Adulte total]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 7_TD" height="20">
+						<jr:detailCell style="table 3_TD" height="20">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="04975659-9744-45e4-891f-a6546d65fd34"/>
 								<textFieldExpression><![CDATA[$F{adulte_total}]]></textFieldExpression>
@@ -2189,13 +2189,13 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="90" uuid="bc754bd8-d5e9-4cd0-bd18-36e879bcbcc9">
-						<jr:columnHeader style="table 7_CH" height="30">
+						<jr:columnHeader style="table 3_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="8391e5e3-4b0a-482a-be25-023037fe4732"/>
 								<text><![CDATA[Péd. femme]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 7_TD" height="20">
+						<jr:detailCell style="table 3_TD" height="20">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="f1259677-75aa-4a4e-a6f8-d2e6fe84fdc8"/>
 								<textFieldExpression><![CDATA[$F{ped_Femme}]]></textFieldExpression>
@@ -2203,13 +2203,13 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="90" uuid="33798077-e73a-4050-9a94-b6d3946d6a41">
-						<jr:columnHeader style="table 7_CH" height="30">
+						<jr:columnHeader style="table 3_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="f5c1961d-9929-48cc-ba99-97f2975d3746"/>
 								<text><![CDATA[Péd. homme]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 7_TD" height="20">
+						<jr:detailCell style="table 3_TD" height="20">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="71b7c74b-6a71-4fbb-836a-569653f6f54d"/>
 								<textFieldExpression><![CDATA[$F{ped_Homme}]]></textFieldExpression>
@@ -2217,13 +2217,13 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="90" uuid="b9370ec3-67f8-41b0-b41d-ff6d7af61b7d">
-						<jr:columnHeader style="table 7_CH" height="30">
+						<jr:columnHeader style="table 3_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="1afe9ea7-3db3-4afc-862d-1892096c7d1b"/>
 								<text><![CDATA[Péd. total]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 7_TD" height="20">
+						<jr:detailCell style="table 3_TD" height="20">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="bb5436bd-bc35-4cda-b3f3-b1f02f1f48eb"/>
 								<textFieldExpression><![CDATA[$F{ped_total}]]></textFieldExpression>
