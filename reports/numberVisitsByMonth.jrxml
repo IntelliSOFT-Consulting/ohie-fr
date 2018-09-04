@@ -94,7 +94,7 @@ ORDER BY 3 DESC;]]>
 	<parameter name="organisationunits_uid" class="java.lang.String"/>
 	<parameter name="organisationunit_name" class="java.lang.String"/>
 	<parameter name="isanteplus_database_con" class="java.sql.Connection" isForPrompting="false">
-		<defaultValueExpression><![CDATA[java.sql.DriverManager.getConnection("jdbc:mysql://172.18.0.5:3306/","root","shr")]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[java.sql.DriverManager.getConnection("jdbc:mysql://${MYSQL_HOST}:3306/","root","${MYSQL_ROOT_PASSWORD}")]]></defaultValueExpression>
 	</parameter>
 	<queryString language="plsql">
 		<![CDATA[SELECT 1;]]>
