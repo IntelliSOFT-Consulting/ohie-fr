@@ -2150,12 +2150,18 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 						<jr:columnHeader style="table 3_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="7a52a848-249a-4280-a2bb-a9333bbb2aba"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
 								<text><![CDATA[Adulte femme]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 3_TD" height="20">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="581ad8dd-7785-4a64-a4c1-9d06a176c940"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{adulte_Femme}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -2164,12 +2170,18 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 						<jr:columnHeader style="table 3_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="8828e186-ce2d-4c7b-a199-c5ad0547c246"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
 								<text><![CDATA[Adulte homme]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 3_TD" height="20">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="92adbd2a-6ad7-407f-a0b3-bf40dd6656e4"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{adulte_Homme}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -2178,12 +2190,18 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 						<jr:columnHeader style="table 3_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="6c96e77d-194b-412e-97d4-2251af843756"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
 								<text><![CDATA[Adulte total]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 3_TD" height="20">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="04975659-9744-45e4-891f-a6546d65fd34"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{adulte_total}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -2192,12 +2210,18 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 						<jr:columnHeader style="table 3_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="8391e5e3-4b0a-482a-be25-023037fe4732"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
 								<text><![CDATA[Péd. femme]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 3_TD" height="20">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="f1259677-75aa-4a4e-a6f8-d2e6fe84fdc8"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{ped_Femme}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -2206,12 +2230,18 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 						<jr:columnHeader style="table 3_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="f5c1961d-9929-48cc-ba99-97f2975d3746"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
 								<text><![CDATA[Péd. homme]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 3_TD" height="20">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="71b7c74b-6a71-4fbb-836a-569653f6f54d"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{ped_Homme}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -2220,12 +2250,18 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 						<jr:columnHeader style="table 3_CH" height="30">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="30" uuid="1afe9ea7-3db3-4afc-862d-1892096c7d1b"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
 								<text><![CDATA[Péd. total]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 3_TD" height="20">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="bb5436bd-bc35-4cda-b3f3-b1f02f1f48eb"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{ped_total}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
