@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recentlyEnteredRecords" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df48aa2c-3795-40ea-8bb4-7e8988796c80">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recentlyEnteredRecords" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df48aa2c-3795-40ea-8bb4-7e8988796c80">
 	<property name="ireport.zoom" value="1.2100000000000006"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -23,10 +23,30 @@
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
 	<subDataset name="dataset1" uuid="c19a8940-5445-4aac-95be-401c7d870329">
 		<parameter name="organisationunits_uid" class="java.lang.String"/>
 		<queryString>
-			<![CDATA[SELECT p.st_id AS 'No. de patient attribué par le site',
+			<![CDATA[SELECT p.st_id AS siteId,
 	usr.username AS utilisateur,
 	entype.name AS Fiche,
 	DATE(enc.date_created) AS 'Date de création',
@@ -35,8 +55,8 @@
 		ELSE enc.date_changed END
 		AS 'Dernière modification',
 	f.name AS Fiches,
-	p.patient_id,f.uuid AS formUuid,
-	enc.uuid AS encounterUuid
+	p.patient_id,
+	enc.encounter_id AS encounterId
 FROM isanteplus.patient p, openmrs.encounter enc, isanteplus.org_code_uid org,
 	openmrs.encounter_type entype, openmrs.form f, openmrs.users usr
 WHERE p.patient_id=enc.patient_id
@@ -48,7 +68,7 @@ WHERE p.patient_id=enc.patient_id
 GROUP BY DATE(enc.date_created) DESC
 LIMIT 100;]]>
 		</queryString>
-		<field name="No. de patient attribué par le site" class="java.lang.String"/>
+		<field name="siteId" class="java.lang.String"/>
 		<field name="utilisateur" class="java.lang.String"/>
 		<field name="Fiche" class="java.lang.String"/>
 		<field name="Date de création" class="java.sql.Date"/>
@@ -57,8 +77,7 @@ LIMIT 100;]]>
 		<field name="patient_id" class="java.lang.Integer">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
-		<field name="formUuid" class="java.lang.String"/>
-		<field name="encounterUuid" class="java.lang.String"/>
+		<field name="encounterId" class="java.lang.Integer"/>
 	</subDataset>
 	<parameter name="organisationunits_uid" class="java.lang.String"/>
 	<parameter name="organisationunit_name" class="java.lang.String"/>
@@ -101,9 +120,9 @@ LIMIT 100;]]>
 	<detail>
 		<band height="109" splitType="Stretch">
 			<componentElement>
-				<reportElement key="table 2" style="table 2" x="0" y="0" width="802" height="109" uuid="e19c81ad-d70d-47ab-a0c1-3f59125e6f9f"/>
+				<reportElement key="table" style="table" x="0" y="0" width="752" height="50" uuid="29341e59-9cc4-44a4-9484-f4d1f799fa3e"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="dataset1" uuid="35c2eb63-36af-4e59-9e9f-4fd451dd489e">
+					<datasetRun subDataset="dataset1" uuid="53656107-f1cb-4dd8-a6a0-163322a51c5b">
 						<datasetParameter name="REPORT_CONNECTION">
 							<datasetParameterExpression><![CDATA[$P{isanteplus_database_con}]]></datasetParameterExpression>
 						</datasetParameter>
@@ -111,147 +130,115 @@ LIMIT 100;]]>
 							<datasetParameterExpression><![CDATA[$P{organisationunits_uid}]]></datasetParameterExpression>
 						</datasetParameter>
 					</datasetRun>
-					<jr:column width="90" uuid="26ab76f4-b73c-4594-9282-fa45b78feac8">
-						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+					<jr:column width="100" uuid="3879edff-4168-4f16-aa78-9df9c174ff9a">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
 							<box topPadding="4" leftPadding="4"/>
 							<staticText>
-								<reportElement x="0" y="0" width="86" height="26" uuid="c8cb7d65-db7b-40f6-a9cb-903d3532c437"/>
+								<reportElement x="0" y="0" width="96" height="26" uuid="2104b15d-89eb-4ec6-938e-430bfca4e93a"/>
 								<text><![CDATA[No. de patient attribué par le site]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="51" rowSpan="1">
-							<box topPadding="4" leftPadding="4"/>
+						<jr:detailCell style="table_TD" height="80" rowSpan="1">
+							<box topPadding="4" leftPadding="4" rightPadding="2"/>
 							<textField>
-								<reportElement x="0" y="0" width="86" height="46" uuid="3488de39-96bd-44f0-850c-7182a5f53c44"/>
-								<textFieldExpression><![CDATA[$F{No. de patient attribué par le site}]]></textFieldExpression>
+								<reportElement x="0" y="0" width="94" height="76" uuid="bd886336-da1d-4819-9443-3c061b40ab9a"/>
+								<textFieldExpression><![CDATA[String.format("https://sedish.net:8082/openmrs/patientDashboard.form?patientId=%s", $F{patient_id})]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90" uuid="4a80d5d9-0921-4ea7-ac6b-2bec07a17298">
-						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+					<jr:column width="100" uuid="206c0deb-5fc3-4360-b20e-3413ccb5c444">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
 							<box topPadding="4" leftPadding="4"/>
 							<staticText>
-								<reportElement x="0" y="0" width="86" height="26" uuid="5772ee71-9800-4899-b297-76bddb28a304"/>
+								<reportElement x="0" y="0" width="96" height="26" uuid="f0e88616-0eb6-41be-8a8f-c8cc87df8602"/>
 								<text><![CDATA[utilisateur]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="51" rowSpan="1">
-							<box topPadding="4" leftPadding="4"/>
+						<jr:detailCell style="table_TD" height="80" rowSpan="1">
+							<box topPadding="4" leftPadding="4" rightPadding="2"/>
 							<textField>
-								<reportElement x="0" y="0" width="86" height="46" uuid="cb4b78e4-687f-4db6-9a3f-0d27d2ff92d2"/>
+								<reportElement x="0" y="0" width="94" height="76" uuid="cab7c04c-1bff-468d-a298-f9ca9d95b36a"/>
 								<textFieldExpression><![CDATA[$F{utilisateur}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90" uuid="82923a69-56c1-410b-9dee-5a781ebdc5fd">
-						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+					<jr:column width="100" uuid="ecf871a3-fde1-429c-946e-07d2fda7b374">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
 							<box topPadding="4" leftPadding="4"/>
 							<staticText>
-								<reportElement x="0" y="0" width="86" height="26" uuid="96f4d2be-3e8b-4b0a-a496-70ad9423c97e"/>
+								<reportElement x="0" y="0" width="96" height="26" uuid="296504e8-c921-48ed-9da1-3c77f49a558f"/>
 								<text><![CDATA[Fiche]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="51" rowSpan="1">
-							<box topPadding="4" leftPadding="4"/>
+						<jr:detailCell style="table_TD" height="80" rowSpan="1">
+							<box topPadding="4" leftPadding="4" rightPadding="2"/>
 							<textField>
-								<reportElement x="0" y="0" width="86" height="46" uuid="7c2ba498-20ab-4ef2-b5a3-712b42ffcfe8"/>
+								<reportElement x="0" y="0" width="94" height="76" uuid="f7d7ec02-4431-4f93-86fe-5ab06338db0f"/>
 								<textFieldExpression><![CDATA[$F{Fiche}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90" uuid="e85d033a-f83f-448b-891b-6e061a414a1f">
-						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+					<jr:column width="100" uuid="5827d302-9a75-4816-881c-0fad55e8694f">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
 							<box topPadding="4" leftPadding="4"/>
 							<staticText>
-								<reportElement x="0" y="0" width="86" height="26" uuid="639544db-8f74-48ba-a0ff-478d3951c2ff"/>
+								<reportElement x="0" y="0" width="96" height="26" uuid="08a14535-b594-494a-8f12-1de70af8cfe7"/>
 								<text><![CDATA[Date de création]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="51" rowSpan="1">
-							<box topPadding="4" leftPadding="4"/>
+						<jr:detailCell style="table_TD" height="80" rowSpan="1">
+							<box topPadding="4" leftPadding="4" rightPadding="2"/>
 							<textField>
-								<reportElement x="0" y="0" width="86" height="46" uuid="4e3d71a0-d66c-435b-8324-9c6d1362fff3"/>
+								<reportElement x="0" y="0" width="94" height="76" uuid="89fb1393-bb6f-4aec-9fe7-a6b62fce58b2"/>
 								<textFieldExpression><![CDATA[$F{Date de création}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90" uuid="86e41186-70b2-420a-a4f8-b8cd8a1764f6">
-						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+					<jr:column width="100" uuid="9118551e-f48a-490a-9304-13f0d36c64cd">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
 							<box topPadding="4" leftPadding="4"/>
 							<staticText>
-								<reportElement x="0" y="0" width="86" height="26" uuid="7cb60d15-b074-4938-a34d-168f39e16f76"/>
+								<reportElement x="0" y="0" width="96" height="26" uuid="c32bac71-96c0-4c68-998a-1812cf575342"/>
 								<text><![CDATA[Dernière modification]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="51" rowSpan="1">
-							<box topPadding="4" leftPadding="4"/>
+						<jr:detailCell style="table_TD" height="80" rowSpan="1">
+							<box topPadding="4" leftPadding="4" rightPadding="2"/>
 							<textField>
-								<reportElement x="0" y="0" width="86" height="46" uuid="9881472b-6a75-4487-926a-4e0fceff2754"/>
+								<reportElement x="0" y="0" width="94" height="76" uuid="f23eaf5f-f01c-443f-948e-5db005ba5c36"/>
 								<textFieldExpression><![CDATA[$F{Dernière modification}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90" uuid="031a7a71-f002-460d-acdf-89d89f005842">
-						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+					<jr:column width="100" uuid="056a2718-bd91-408d-a4a7-f9547be782b1">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
 							<box topPadding="4" leftPadding="4"/>
 							<staticText>
-								<reportElement x="0" y="0" width="86" height="26" uuid="cd1171bf-9ddb-49fe-823b-be2dd514dfdb"/>
+								<reportElement x="0" y="0" width="96" height="26" uuid="55239d92-67f5-4ce1-b32f-47970083fa48"/>
 								<text><![CDATA[Fiches]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="51" rowSpan="1">
-							<box topPadding="4" leftPadding="4"/>
+						<jr:detailCell style="table_TD" height="80" rowSpan="1">
+							<box topPadding="4" leftPadding="4" rightPadding="2"/>
 							<textField>
-								<reportElement x="0" y="0" width="86" height="46" uuid="6c3997ad-9e96-4f88-ba93-8f7c1703ca0e"/>
+								<reportElement x="0" y="0" width="94" height="76" uuid="c988df05-5add-4493-a81a-ad4def588195"/>
 								<textFieldExpression><![CDATA[$F{Fiches}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="60" uuid="cad19f0e-55d6-483c-9a93-49dee1daea15">
-						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
+					<jr:column width="100" uuid="930a5898-ccfa-4b45-b6dc-866375c66fed">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
 							<box topPadding="4" leftPadding="4"/>
 							<staticText>
-								<reportElement x="0" y="0" width="56" height="26" uuid="56bc1be3-4e9d-498f-8393-e2fd214f609a"/>
-								<text><![CDATA[patient_id]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="51" rowSpan="1">
-							<box topPadding="4" leftPadding="4"/>
-							<textField>
-								<reportElement x="0" y="0" width="56" height="46" uuid="37823321-0370-479c-aa9f-6d7d1bb99e34"/>
-								<textFieldExpression><![CDATA[$F{patient_id}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="90" uuid="9498fa0e-9358-4fc5-a3fa-3cbf474a30dd">
-						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
-							<box topPadding="4" leftPadding="4"/>
-							<staticText>
-								<reportElement x="0" y="0" width="86" height="26" uuid="bb7d75c5-f56c-41cb-a8f4-89cef7f20317"/>
-								<text><![CDATA[formUuid]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="51" rowSpan="1">
-							<box topPadding="4" leftPadding="4"/>
-							<textField>
-								<reportElement x="0" y="0" width="86" height="46" uuid="617879df-cbe0-4892-8abc-8b759256fc95"/>
-								<textFieldExpression><![CDATA[$F{formUuid}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="90" uuid="4c716805-cf17-415f-96c7-93e054117c91">
-						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
-							<box topPadding="4" leftPadding="4"/>
-							<staticText>
-								<reportElement x="0" y="0" width="86" height="26" uuid="22ad5902-a7ae-46e8-9379-5f87eff00cc2"/>
+								<reportElement x="0" y="0" width="96" height="26" uuid="fa655b45-d677-4890-9930-249e61da4173"/>
 								<text><![CDATA[encounterUuid]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell style="table 2_TD" height="51" rowSpan="1">
-							<box topPadding="4" leftPadding="4"/>
+						<jr:detailCell style="table_TD" height="80" rowSpan="1">
+							<box topPadding="4" leftPadding="4" rightPadding="2"/>
 							<textField>
-								<reportElement x="0" y="0" width="86" height="46" uuid="b0f47b16-b728-4a7a-a7d4-3b49c0792646"/>
-								<textFieldExpression><![CDATA[$F{encounterUuid}]]></textFieldExpression>
+								<reportElement x="0" y="0" width="94" height="76" uuid="f6d8ae1e-f4d9-4a2e-874c-af2d3cd9aeb0"/>
+								<textFieldExpression><![CDATA[String.format("https://sedish.net:8082/openmrs/admin/encounters/encounter.form?encounterId=%s", $F{encounterId})]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
