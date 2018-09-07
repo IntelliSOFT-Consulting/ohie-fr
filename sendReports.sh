@@ -2,9 +2,11 @@
 
 : ${MYSQL_HOST=openmrs-mysql-db}
 : ${MYSQL_ROOT_PASSWORD=secret_password}
+: ${SERVER_ADDRESS=localhost}
 
 export MYSQL_HOST
 export MYSQL_ROOT_PASSWORD
+export SERVER_ADDRESS
 
 USERNAME=admin;
 POST_TEMPLATE=$(cat /postTemplate.json)
@@ -20,6 +22,7 @@ processFile() {
    POST_CONTENT=$(printf "$3" "$REPORT_NAME" "$REPORT_CONTENT")
    echo "$POST_CONTENT" > tmp_report_content.json
 
+   echo $'\n'$REPORT_NAME
    curl -X POST -H "Content-Type: application/json" -u "$USERNAME:$DHIS_ADMIN_PASSWORD" \
    "http://localhost:8080/api/reports" -d @tmp_report_content.json
 
