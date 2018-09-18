@@ -142,7 +142,7 @@ LIMIT 100;]]>
 							<box topPadding="4" leftPadding="4" rightPadding="2"/>
 							<textField>
 								<reportElement x="0" y="0" width="94" height="76" uuid="bd886336-da1d-4819-9443-3c061b40ab9a"/>
-								<textFieldExpression><![CDATA[String.format("https://sedish.net:8082/openmrs/patientDashboard.form?patientId=%s", $F{patient_id})]]></textFieldExpression>
+								<textFieldExpression><![CDATA[String.format("https://${SERVER_ADDRESS}:8082/openmrs/patientDashboard.form?patientId=%s", $F{patient_id})]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -238,7 +238,7 @@ LIMIT 100;]]>
 							<box topPadding="4" leftPadding="4" rightPadding="2"/>
 							<textField>
 								<reportElement x="0" y="0" width="94" height="76" uuid="f6d8ae1e-f4d9-4a2e-874c-af2d3cd9aeb0"/>
-								<textFieldExpression><![CDATA[String.format("https://sedish.net:8082/openmrs/admin/encounters/encounter.form?encounterId=%s", $F{encounterId})]]></textFieldExpression>
+								<textFieldExpression><![CDATA[String.format("https://${SERVER_ADDRESS}:8082/openmrs/admin/encounters/encounter.form?encounterId=%s", $F{encounterId})]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
