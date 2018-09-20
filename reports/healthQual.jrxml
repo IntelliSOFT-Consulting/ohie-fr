@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="healthQual" pageWidth="612" pageHeight="792" whenNoDataType="AllSectionsNoDetail" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df48aa2c-3795-40ea-8bb4-7e8988796c80">
 	<property name="ireport.zoom" value="1.3636363636363635"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="528"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -1996,19 +1996,25 @@ WHERE
 	FIND_IN_SET($P{organisationunits_uid}, org.path)
     AND p.vih_status = 1
     AND p.birthdate IS NOT NULL
-    AND TIMESTAMPDIFF(YEAR, p.birthdate, DATE_ADD(STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d'), INTERVAL 1 MONTH)) BETWEEN 1 AND 14
-    AND p.patient_id IN (
+    AND TIMESTAMPDIFF(YEAR, p.birthdate, DATE_ADD(STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d'),
+    INTERVAL 1 MONTH)) BETWEEN 1 AND 14
+    AND p.patient_id IN ( -- Pediatric Rx
+        SELECT patient_id
+        FROM isanteplus.patient_prescription AS innerpp
+        WHERE DATE_FORMAT(innerpp.visit_date, "%Y%m") = $P{periods_iso}
+        AND innerpp.rx_or_prophy = 138405
+    )
+    AND p.patient_id IN ( -- ‌HIV First Pediatric Visit OR Pediatric Follow‐up‌
+        SELECT phv.patient_id
+        FROM isanteplus.pediatric_hiv_visit phv, isanteplus.health_qual_patient_visit pv
+        WHERE pv.encounter_id = phv.encounter_id
+        AND DATE_FORMAT(pv.visit_date, "%Y%m") = $P{periods_iso}
+    )
+    AND p.patient_id NOT IN ( -- exclude active TB
         SELECT pv.patient_id
         FROM isanteplus.health_qual_patient_visit pv
-        WHERE
-            pv.is_active_tb IS true
-            AND (
-                DATE_FORMAT(pv.visit_date, "%Y%m") = $P{periods_iso}
-                OR (
-                    DATE_FORMAT(pp.visit_date, "%Y%m") = $P{periods_iso}
-                    AND pp.rx_or_prophy = 138405
-                )
-          )
+        WHERE pv.is_active_tb IS true
+        AND DATE_FORMAT(pv.visit_date, "%Y%m") = $P{periods_iso}
     )
     AND p.patient_id NOT IN (
         SELECT discon.patient_id
@@ -2022,7 +2028,8 @@ WHERE
             plab.test_done = 1
             AND plab.test_id = 844
             AND plab.test_result = 1302
-    );]]>
+    );
+]]>
 		</queryString>
 		<field name="femaleNumerator" class="java.lang.Long"/>
 		<field name="maleNumerator" class="java.lang.Long"/>
@@ -2083,6 +2090,7 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 	<parameter name="organisationunits_uid" class="java.lang.String"/>
 	<parameter name="organisationunit_name" class="java.lang.String"/>
 	<parameter name="isanteplus_database_con" class="java.sql.Connection" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
 		<defaultValueExpression><![CDATA[java.sql.DriverManager.getConnection("jdbc:mysql://${MYSQL_HOST}:3306/","root","${MYSQL_ROOT_PASSWORD}")]]></defaultValueExpression>
 	</parameter>
 	<queryString language="plsql">
