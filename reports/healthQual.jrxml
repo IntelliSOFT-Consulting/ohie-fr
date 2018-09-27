@@ -531,7 +531,7 @@ WHERE
         WHERE
             pv.encounter_type IN ('1', '9') -- adult or pediatric first HIV visit
             AND DATE_FORMAT(pv.visit_date, "%Y%m") = $P{periods_iso} -- the date of first visit
-            pv.is_active_tb IS false -- excluding patients with active TB
+            AND pv.is_active_tb IS false -- excluding patients with active TB
             AND (pv.age_in_years IS NULL OR pv.age_in_years > 14)
     )
     AND p.patient_id NOT IN (
@@ -1520,8 +1520,7 @@ WHERE
             AND plab.test_result = 1302
     )
     AND p.organisation_uid = org.uid
-    AND FIND_IN_SET($P{organisationunits_uid}, org.path);
-]]>
+    AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 		</queryString>
 		<field name="femaleNumerator" class="java.lang.Long"/>
 		<field name="maleNumerator" class="java.lang.Long"/>
@@ -2071,8 +2070,7 @@ WHERE
             plab.test_done = 1
             AND plab.test_id = 844
             AND plab.test_result = 1302
-    );
-]]>
+    );]]>
 		</queryString>
 		<field name="femaleNumerator" class="java.lang.Long"/>
 		<field name="maleNumerator" class="java.lang.Long"/>
