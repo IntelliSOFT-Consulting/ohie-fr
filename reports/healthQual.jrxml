@@ -1450,17 +1450,58 @@ FROM
     isanteplus.patient p,
 	isanteplus.org_code_uid org
 WHERE
-    p.patient_id IN (
+  (p.vih_status = 1 -- Include HIV patients
+    OR p.patient_id IN ( -- Include exposed children
+      SELECT DISTINCT pv.patient_id
+        FROM isanteplus.health_qual_patient_visit pv
+        WHERE
+        pv.patient_id NOT IN (    -- Condition E
+          SELECT DISTINCT plab.patient_id
+          FROM isanteplus.patient_laboratory plab
+          WHERE
+            plab.test_done = 1
+            AND plab.test_id = 844  -- PCR
+            AND plab.test_result = 1301 -- positive
+            AND DATE_FORMAT(plab.date_test_done, "%Y%m") = $P{periods_iso})
+        AND pv.patient_id NOT IN ( -- Condition E positive virology test
+            SELECT DISTINCT pvt.patient_id
+            FROM isanteplus.virological_tests pvt
+            WHERE answer_concept_id = 1030
+            AND test_result = 703
+            AND DATE_FORMAT(pvt.encounter_date, "%Y%m") = $P{periods_iso})
+        AND pv.age_in_years < 14 -- An child
+        AND ( pv.patient_id IN (  -- Condition D
+            SELECT DISTINCT pp.patient_id
+            FROM isanteplus.patient_prescription pp
+            WHERE pp.rx_or_prophy = 163768 -- prophylaxis
+            AND drug_id IN (SELECT drug_id FROM isanteplus.arv_drugs))
+          OR pv.patient_id IN ( -- Condition B
+            SELECT DISTINCT patient_id
+            FROM isanteplus.pediatric_hiv_visit
+            WHERE actual_vih_status = 1405) -- HIV EXPOSED
+          OR pv.patient_id IN ( -- Condition A PCR result
+            SELECT DISTINCT plab.patient_id
+            FROM isanteplus.patient_laboratory plab
+            WHERE plab.test_done = 1
+              AND plab.test_id = 844  -- PCR
+              AND plab.test_result = 1302 -- negative
+              AND plab.date_test_done < DATE_ADD(STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d'),
+                INTERVAL 1 MONTH))
+          OR pv.patient_id IN ( -- Condition A virology test
+            SELECT DISTINCT pvt.patient_id
+            FROM isanteplus.virological_tests pvt
+            WHERE answer_concept_id = 1030
+            AND test_result = 664
+            AND pvt.encounter_date  < DATE_ADD(STR_TO_DATE(CONCAT($P{periods_iso}, '01'), '%Y%m%d'),
+              INTERVAL 1 MONTH))
+      )
+    )
+  )
+    AND p.patient_id IN (
         SELECT phv.patient_id
         FROM isanteplus.health_qual_patient_visit phv
-        LEFT JOIN isanteplus.patient_prescription pp
-            ON phv.patient_id = pp.patient_id
     WHERE (
         DATE_FORMAT(phv.visit_date, "%Y%m") = $P{periods_iso}
-        OR (
-          DATE_FORMAT(pp.visit_date, "%Y%m") = $P{periods_iso}
-          AND pp.rx_or_prophy = 138405
-        )
       )
       AND phv.age_in_years IS NOT NULL AND phv.age_in_years <= 14
   )
@@ -1478,7 +1519,8 @@ WHERE
             AND plab.test_result = 1302
     )
     AND p.organisation_uid = org.uid
-    AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
+    AND FIND_IN_SET($P{organisationunits_uid}, org.path);
+]]>
 		</queryString>
 		<field name="femaleNumerator" class="java.lang.Long"/>
 		<field name="maleNumerator" class="java.lang.Long"/>
@@ -6366,6 +6408,214 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 				</textElement>
 				<text><![CDATA[Pédiatrique 4. Proportion d’enfants VIH sous ARV ayant bénéficié d’une évaluation sur l’adhérence au cours des 3 derniers mois.]]></text>
 			</staticText>
+			<componentElement>
+				<reportElement key="table 3" style="table 3" x="0" y="611" width="572" height="90" uuid="d99cb78c-265c-4ab1-9eb1-aeb31a931eaa"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="pediatric_4" uuid="1252cd9b-4e10-4b6e-a69f-bc95f0de3f1e">
+						<datasetParameter name="REPORT_CONNECTION">
+							<datasetParameterExpression><![CDATA[$P{isanteplus_database_con}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="periods_iso">
+							<datasetParameterExpression><![CDATA[$P{periods_iso}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="organisationunits_uid">
+							<datasetParameterExpression><![CDATA[$P{organisationunits_uid}]]></datasetParameterExpression>
+						</datasetParameter>
+					</datasetRun>
+					<jr:column width="50" uuid="cb9d7813-6582-4aba-ab7f-e4d790d998d8">
+						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="9d2d7ec5-552b-480d-9c95-8daecddd3dfd"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[Num. H]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="e35f4717-88a8-41d3-931f-759b715ff451"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{maleNumerator}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="ea800b91-7b85-44a7-823a-be0b8347ff32">
+						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="f46d3008-62ee-4412-9669-962c71467876"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[Num. F]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="89a9bfec-194c-4e5e-bc6e-f66b1ca2eebc"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{femaleNumerator}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="f86a5358-3f0d-44d6-97c2-d49ffa0aa160">
+						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+							<box rightPadding="0">
+								<rightPen lineWidth="2.0"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="906a0845-42c6-4757-a333-aa9e3aba2992"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[Tot]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+							<box>
+								<rightPen lineWidth="2.0"/>
+							</box>
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="30a64587-b1f4-44f4-a2b9-6afed19f8d57"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{maleNumerator} + $F{femaleNumerator}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="32f765ba-4ce3-41b7-a77d-f95dc1d638d3">
+						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="be37e8b8-768b-43db-9db7-5705f3ca4e04"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[Den. H]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="f07d1810-388a-4353-a450-8b9c49f6fd6d"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{maleDenominator}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="354c6ee0-733e-4ba6-952a-158510d3f602">
+						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="f2c1e45c-dfb3-446a-805b-1fa49b1c9aa9"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[Den. F]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="ce124e3d-a791-4363-bdc8-4ac5f92f9781"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{femaleDenominator}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="55510d7b-8aa9-4cf0-9d66-dddbf4d7911c">
+						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+							<box>
+								<rightPen lineWidth="2.0"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="014007a8-7728-4ade-bf51-fba289390d7e"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[Tot]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+							<box>
+								<rightPen lineWidth="2.0"/>
+							</box>
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="24bfe616-391d-43f2-bbe4-e9d0e36d3845"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{maleDenominator} + $F{femaleDenominator}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="c53daf92-bf98-4a65-9b09-f22e8ecba1f4">
+						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="be84ea04-a3b8-487f-99d7-516b05702f42"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[% H]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="edade3d5-9e90-4e12-90c2-79dd9dd30d29"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[($F{maleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} * 100. / $F{maleDenominator})) : "N/A")]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="32e6c9eb-9439-4d14-9fec-babbfaf554b2">
+						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="2fe7b009-57fc-4e0b-93b0-70228d1cc517"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[% F]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="f6b95e59-bd2d-4c2a-85d0-0d5b6bf26906"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[($F{femaleDenominator} != 0 ? String.format("%.2f", ($F{femaleNumerator} * 100. / $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="f0c3890c-b838-4dd7-9fdc-66e27beda424">
+						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="9552d1c9-8644-49a3-adb7-409e00087c3e"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<text><![CDATA[Tot]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="3afb8255-bb55-418d-b76d-610c10cb0d54"/>
+								<textElement>
+									<paragraph leftIndent="3" spacingBefore="3"/>
+								</textElement>
+								<textFieldExpression><![CDATA[($F{maleDenominator} + $F{femaleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} + $F{femaleNumerator}) * 100. / ($F{maleDenominator} + $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
 		</band>
 		<band height="718">
 			<componentElement>
@@ -7236,9 +7486,9 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 				</jr:table>
 			</componentElement>
 			<componentElement>
-				<reportElement key="table 3" style="table 3" x="0" y="611" width="572" height="90" uuid="d99cb78c-265c-4ab1-9eb1-aeb31a931eaa"/>
+				<reportElement key="table 3" style="table 3" x="0" y="615" width="572" height="90" uuid="dc91a8ff-9d9a-4f39-96ed-bdbb8a64072f"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="pediatric_4" uuid="1252cd9b-4e10-4b6e-a69f-bc95f0de3f1e">
+					<datasetRun subDataset="pediatric_9" uuid="ba8edb45-0290-45e8-bfbf-6f2d5a872a13">
 						<datasetParameter name="REPORT_CONNECTION">
 							<datasetParameterExpression><![CDATA[$P{isanteplus_database_con}]]></datasetParameterExpression>
 						</datasetParameter>
@@ -7249,10 +7499,10 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 							<datasetParameterExpression><![CDATA[$P{organisationunits_uid}]]></datasetParameterExpression>
 						</datasetParameter>
 					</datasetRun>
-					<jr:column width="50" uuid="cb9d7813-6582-4aba-ab7f-e4d790d998d8">
+					<jr:column width="50" uuid="7f722acb-d621-41b4-8475-f2f466bc3935">
 						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="9d2d7ec5-552b-480d-9c95-8daecddd3dfd"/>
+								<reportElement x="0" y="0" width="50" height="30" uuid="38e3990f-e087-49cd-9621-c16841cab3cf"/>
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
@@ -7261,7 +7511,7 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="50" height="30" uuid="e35f4717-88a8-41d3-931f-759b715ff451"/>
+								<reportElement x="0" y="0" width="50" height="30" uuid="f5ae64dd-31fe-47bb-9a3d-8112b9858fdd"/>
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
@@ -7269,10 +7519,10 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="ea800b91-7b85-44a7-823a-be0b8347ff32">
+					<jr:column width="50" uuid="71bd2095-ac03-4f1f-a72c-de4ef69ef9c9">
 						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="f46d3008-62ee-4412-9669-962c71467876"/>
+								<reportElement x="0" y="0" width="50" height="30" uuid="ab07b817-1ecf-4f65-a7fc-5b01c510b907"/>
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
@@ -7281,7 +7531,7 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="50" height="30" uuid="89a9bfec-194c-4e5e-bc6e-f66b1ca2eebc"/>
+								<reportElement x="0" y="0" width="50" height="30" uuid="1729a1d5-2e3e-43e9-b10e-258261c99d7c"/>
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
@@ -7289,13 +7539,13 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="f86a5358-3f0d-44d6-97c2-d49ffa0aa160">
+					<jr:column width="50" uuid="6e243533-b5af-4ff9-8d38-57a5884b574f">
 						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
 							<box rightPadding="0">
 								<rightPen lineWidth="2.0"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="906a0845-42c6-4757-a333-aa9e3aba2992"/>
+								<reportElement x="0" y="0" width="50" height="30" uuid="7ce6d0e3-d495-44e8-b91e-4f717e7a4821"/>
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
@@ -7307,7 +7557,7 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 								<rightPen lineWidth="2.0"/>
 							</box>
 							<textField>
-								<reportElement x="0" y="0" width="50" height="30" uuid="30a64587-b1f4-44f4-a2b9-6afed19f8d57"/>
+								<reportElement x="0" y="0" width="50" height="30" uuid="2e690f7d-d658-4a66-b61f-2d6edfd03711"/>
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
@@ -7315,10 +7565,10 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="32f765ba-4ce3-41b7-a77d-f95dc1d638d3">
+					<jr:column width="50" uuid="1c4a5b87-bc12-432b-9270-d4d8a2562ab8">
 						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="be37e8b8-768b-43db-9db7-5705f3ca4e04"/>
+								<reportElement x="0" y="0" width="50" height="30" uuid="c3423d9f-652a-4402-afc3-73b96e904f5f"/>
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
@@ -7327,7 +7577,7 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="50" height="30" uuid="f07d1810-388a-4353-a450-8b9c49f6fd6d"/>
+								<reportElement x="0" y="0" width="50" height="30" uuid="e2d9b9b1-55aa-4d59-bab1-b96b9f1ccce9"/>
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
@@ -7335,10 +7585,10 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="354c6ee0-733e-4ba6-952a-158510d3f602">
+					<jr:column width="50" uuid="0e1411ce-bd93-47b2-b3ea-d6b8c6455e36">
 						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="f2c1e45c-dfb3-446a-805b-1fa49b1c9aa9"/>
+								<reportElement x="0" y="0" width="50" height="30" uuid="822f1a8f-81bf-4347-a7ce-de5542c2064c"/>
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
@@ -7347,7 +7597,7 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="50" height="30" uuid="ce124e3d-a791-4363-bdc8-4ac5f92f9781"/>
+								<reportElement x="0" y="0" width="50" height="30" uuid="ed116e03-25f9-4b06-ba20-a84e7a82686a"/>
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
@@ -7355,13 +7605,13 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="55510d7b-8aa9-4cf0-9d66-dddbf4d7911c">
+					<jr:column width="50" uuid="00504ba9-f59e-4bc5-b587-a034d06d8121">
 						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
 							<box>
 								<rightPen lineWidth="2.0"/>
 							</box>
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="014007a8-7728-4ade-bf51-fba289390d7e"/>
+								<reportElement x="0" y="0" width="50" height="30" uuid="6c90d132-06e6-4e64-9556-bbbd4f94e44a"/>
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
@@ -7373,7 +7623,7 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 								<rightPen lineWidth="2.0"/>
 							</box>
 							<textField>
-								<reportElement x="0" y="0" width="50" height="30" uuid="24bfe616-391d-43f2-bbe4-e9d0e36d3845"/>
+								<reportElement x="0" y="0" width="50" height="30" uuid="e242c0c9-8d83-4682-8adf-145f478fe410"/>
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
@@ -7381,10 +7631,10 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="c53daf92-bf98-4a65-9b09-f22e8ecba1f4">
+					<jr:column width="50" uuid="8e785677-cbf5-471a-bc79-32fc634523a1">
 						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="be84ea04-a3b8-487f-99d7-516b05702f42"/>
+								<reportElement x="0" y="0" width="50" height="30" uuid="40e994b4-b7f4-4449-8ba1-fd328cdd900e"/>
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
@@ -7393,7 +7643,7 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="50" height="30" uuid="edade3d5-9e90-4e12-90c2-79dd9dd30d29"/>
+								<reportElement x="0" y="0" width="50" height="30" uuid="22800acc-60ac-4313-9e3b-20f7fb8f4fb8"/>
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
@@ -7401,10 +7651,10 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="32e6c9eb-9439-4d14-9fec-babbfaf554b2">
+					<jr:column width="50" uuid="51904600-d54e-44d5-b675-383144bacd8b">
 						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="2fe7b009-57fc-4e0b-93b0-70228d1cc517"/>
+								<reportElement x="0" y="0" width="50" height="30" uuid="ea84d7b1-3e3b-4260-80f8-c04add6071e1"/>
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
@@ -7413,7 +7663,7 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="50" height="30" uuid="f6b95e59-bd2d-4c2a-85d0-0d5b6bf26906"/>
+								<reportElement x="0" y="0" width="50" height="30" uuid="3870d3d7-ddfe-4ed3-8011-a897a1d33708"/>
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
@@ -7421,10 +7671,10 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="50" uuid="f0c3890c-b838-4dd7-9fdc-66e27beda424">
+					<jr:column width="50" uuid="513a1ad9-4a4c-482c-a500-04de66a5cec7">
 						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="9552d1c9-8644-49a3-adb7-409e00087c3e"/>
+								<reportElement x="0" y="0" width="50" height="30" uuid="2f01f034-8315-45ad-9a24-9b8360794419"/>
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
@@ -7433,7 +7683,7 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 						</jr:columnHeader>
 						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="50" height="30" uuid="3afb8255-bb55-418d-b76d-610c10cb0d54"/>
+								<reportElement x="0" y="0" width="50" height="30" uuid="b39b946c-c6a6-48df-8623-f322a47c82e5"/>
 								<textElement>
 									<paragraph leftIndent="3" spacingBefore="3"/>
 								</textElement>
@@ -8331,214 +8581,6 @@ AND FIND_IN_SET($P{organisationunits_uid}, org.path);]]>
 				</textElement>
 				<text><![CDATA[Pédiatrique 10. Proportion d’enfants exposés ou infectés au VIH ayant reçu les vaccins adéquats pour leur âge selon le Programme élargi de Vaccination (PEV) et les normes pédiatriques du ministère]]></text>
 			</staticText>
-			<componentElement>
-				<reportElement key="table 3" style="table 3" x="0" y="615" width="572" height="90" uuid="dc91a8ff-9d9a-4f39-96ed-bdbb8a64072f"/>
-				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="pediatric_9" uuid="ba8edb45-0290-45e8-bfbf-6f2d5a872a13">
-						<datasetParameter name="REPORT_CONNECTION">
-							<datasetParameterExpression><![CDATA[$P{isanteplus_database_con}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="periods_iso">
-							<datasetParameterExpression><![CDATA[$P{periods_iso}]]></datasetParameterExpression>
-						</datasetParameter>
-						<datasetParameter name="organisationunits_uid">
-							<datasetParameterExpression><![CDATA[$P{organisationunits_uid}]]></datasetParameterExpression>
-						</datasetParameter>
-					</datasetRun>
-					<jr:column width="50" uuid="7f722acb-d621-41b4-8475-f2f466bc3935">
-						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="38e3990f-e087-49cd-9621-c16841cab3cf"/>
-								<textElement>
-									<paragraph leftIndent="3" spacingBefore="3"/>
-								</textElement>
-								<text><![CDATA[Num. H]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
-							<textField>
-								<reportElement x="0" y="0" width="50" height="30" uuid="f5ae64dd-31fe-47bb-9a3d-8112b9858fdd"/>
-								<textElement>
-									<paragraph leftIndent="3" spacingBefore="3"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{maleNumerator}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="50" uuid="71bd2095-ac03-4f1f-a72c-de4ef69ef9c9">
-						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="ab07b817-1ecf-4f65-a7fc-5b01c510b907"/>
-								<textElement>
-									<paragraph leftIndent="3" spacingBefore="3"/>
-								</textElement>
-								<text><![CDATA[Num. F]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
-							<textField>
-								<reportElement x="0" y="0" width="50" height="30" uuid="1729a1d5-2e3e-43e9-b10e-258261c99d7c"/>
-								<textElement>
-									<paragraph leftIndent="3" spacingBefore="3"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{femaleNumerator}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="50" uuid="6e243533-b5af-4ff9-8d38-57a5884b574f">
-						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
-							<box rightPadding="0">
-								<rightPen lineWidth="2.0"/>
-							</box>
-							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="7ce6d0e3-d495-44e8-b91e-4f717e7a4821"/>
-								<textElement>
-									<paragraph leftIndent="3" spacingBefore="3"/>
-								</textElement>
-								<text><![CDATA[Tot]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
-							<box>
-								<rightPen lineWidth="2.0"/>
-							</box>
-							<textField>
-								<reportElement x="0" y="0" width="50" height="30" uuid="2e690f7d-d658-4a66-b61f-2d6edfd03711"/>
-								<textElement>
-									<paragraph leftIndent="3" spacingBefore="3"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{maleNumerator} + $F{femaleNumerator}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="50" uuid="1c4a5b87-bc12-432b-9270-d4d8a2562ab8">
-						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="c3423d9f-652a-4402-afc3-73b96e904f5f"/>
-								<textElement>
-									<paragraph leftIndent="3" spacingBefore="3"/>
-								</textElement>
-								<text><![CDATA[Den. H]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
-							<textField>
-								<reportElement x="0" y="0" width="50" height="30" uuid="e2d9b9b1-55aa-4d59-bab1-b96b9f1ccce9"/>
-								<textElement>
-									<paragraph leftIndent="3" spacingBefore="3"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{maleDenominator}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="50" uuid="0e1411ce-bd93-47b2-b3ea-d6b8c6455e36">
-						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="822f1a8f-81bf-4347-a7ce-de5542c2064c"/>
-								<textElement>
-									<paragraph leftIndent="3" spacingBefore="3"/>
-								</textElement>
-								<text><![CDATA[Den. F]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
-							<textField>
-								<reportElement x="0" y="0" width="50" height="30" uuid="ed116e03-25f9-4b06-ba20-a84e7a82686a"/>
-								<textElement>
-									<paragraph leftIndent="3" spacingBefore="3"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{femaleDenominator}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="50" uuid="00504ba9-f59e-4bc5-b587-a034d06d8121">
-						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
-							<box>
-								<rightPen lineWidth="2.0"/>
-							</box>
-							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="6c90d132-06e6-4e64-9556-bbbd4f94e44a"/>
-								<textElement>
-									<paragraph leftIndent="3" spacingBefore="3"/>
-								</textElement>
-								<text><![CDATA[Tot]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
-							<box>
-								<rightPen lineWidth="2.0"/>
-							</box>
-							<textField>
-								<reportElement x="0" y="0" width="50" height="30" uuid="e242c0c9-8d83-4682-8adf-145f478fe410"/>
-								<textElement>
-									<paragraph leftIndent="3" spacingBefore="3"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{maleDenominator} + $F{femaleDenominator}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="50" uuid="8e785677-cbf5-471a-bc79-32fc634523a1">
-						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="40e994b4-b7f4-4449-8ba1-fd328cdd900e"/>
-								<textElement>
-									<paragraph leftIndent="3" spacingBefore="3"/>
-								</textElement>
-								<text><![CDATA[% H]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
-							<textField>
-								<reportElement x="0" y="0" width="50" height="30" uuid="22800acc-60ac-4313-9e3b-20f7fb8f4fb8"/>
-								<textElement>
-									<paragraph leftIndent="3" spacingBefore="3"/>
-								</textElement>
-								<textFieldExpression><![CDATA[($F{maleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} * 100. / $F{maleDenominator})) : "N/A")]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="50" uuid="51904600-d54e-44d5-b675-383144bacd8b">
-						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="ea84d7b1-3e3b-4260-80f8-c04add6071e1"/>
-								<textElement>
-									<paragraph leftIndent="3" spacingBefore="3"/>
-								</textElement>
-								<text><![CDATA[% F]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
-							<textField>
-								<reportElement x="0" y="0" width="50" height="30" uuid="3870d3d7-ddfe-4ed3-8011-a897a1d33708"/>
-								<textElement>
-									<paragraph leftIndent="3" spacingBefore="3"/>
-								</textElement>
-								<textFieldExpression><![CDATA[($F{femaleDenominator} != 0 ? String.format("%.2f", ($F{femaleNumerator} * 100. / $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="50" uuid="513a1ad9-4a4c-482c-a500-04de66a5cec7">
-						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement x="0" y="0" width="50" height="30" uuid="2f01f034-8315-45ad-9a24-9b8360794419"/>
-								<textElement>
-									<paragraph leftIndent="3" spacingBefore="3"/>
-								</textElement>
-								<text><![CDATA[Tot]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
-							<textField>
-								<reportElement x="0" y="0" width="50" height="30" uuid="b39b946c-c6a6-48df-8623-f322a47c82e5"/>
-								<textElement>
-									<paragraph leftIndent="3" spacingBefore="3"/>
-								</textElement>
-								<textFieldExpression><![CDATA[($F{maleDenominator} + $F{femaleDenominator} != 0 ? String.format("%.2f", ($F{maleNumerator} + $F{femaleNumerator}) * 100. / ($F{maleDenominator} + $F{femaleDenominator})) : "N/A")]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-				</jr:table>
-			</componentElement>
 		</band>
 	</detail>
 </jasperReport>
