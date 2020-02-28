@@ -3,7 +3,7 @@ services:
   openhie-fr-app:
     image: uwitech/ohie-fr
     ports:
-     - 8080:8080
+     - 8082:8080
     depends_on:
      - dhis-db
     env_file: .env
